@@ -42,10 +42,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
 
-        getRequestQueue().add(jsonRequest);
+        App.getInstance(this).addToRequestQueue(jsonRequest);
     }
 
-    private RequestQueue getRequestQueue() {
-        return Volley.newRequestQueue(MainActivity.this);
-    }
 }

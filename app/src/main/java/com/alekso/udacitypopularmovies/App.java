@@ -14,6 +14,12 @@ import com.android.volley.toolbox.Volley;
  */
 
 class App {
+    /**
+     * Intent extra to pass a movie id
+     */
+    public static final String EXTRA_MOVIE_ID = "movie_id";
+
+
     private static final String PROTOCOL = "http://";
     private static final String HOST = "api.themoviedb.org";
     private static final String API_LEVEL = "/3";

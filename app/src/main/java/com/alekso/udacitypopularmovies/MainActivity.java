@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
+import android.util.Log;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -36,8 +36,10 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnMo
     }
 
     @Override
-    public void onMovieClick(View view) {
-        startActivity(new Intent(MainActivity.this, DetailsActivity.class));
+    public void onMovieClick(long movieId) {
+        Intent intent = new Intent(MainActivity.this, DetailsActivity.class);
+        intent.putExtra(App.EXTRA_MOVIE_ID, movieId);
+        startActivity(intent);
     }
 
     /**
@@ -49,13 +51,13 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnMo
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        mMainFragment.setText("RESPONSE: " + response);
+                        mMainFragment.setMovies(MoviesReader.parse(response));
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        mMainFragment.setText("ERROR: " + error);
+                        mMainFragment.showError("ERROR: " + error);
                     }
                 });
 

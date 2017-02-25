@@ -4,18 +4,9 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/textView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="MAIN"
-        android:textSize="30sp" />
-
-    <TextView
         android:id="@+id/tv_status"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/textView"
         android:text="No data"
         android:textSize="20sp" />
 
@@ -23,7 +14,6 @@
         android:id="@+id/rv_movies"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/textView"
         android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

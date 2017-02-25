@@ -1,13 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
     <TextView
-        android:id="@+id/tv_movie_id"
+        android:id="@+id/tv_movie_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="DETAILS"
+        android:background="@color/colorPrimaryDark"
+        android:paddingBottom="20dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="20dp"
+        android:text="MOVIE TITLE"
+        android:textColor="@android:color/white"
         android:textSize="30sp" />
-</FrameLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="4dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="4dp">
+
+            <TextView
+                android:id="@+id/tv_movie_id"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="DETAILS"
+                android:textSize="30sp"
+                android:visibility="gone" />
+
+            <ImageView
+                android:id="@+id/iv_movie_poster"
+                android:layout_width="100dp"
+                android:layout_height="180dp"
+                android:src="@android:drawable/spinner_background" />
+
+            <TextView
+                android:id="@+id/tv_movie_year"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/iv_movie_poster"
+                android:text="2016" />
+
+            <TextView
+                android:id="@+id/tv_movie_duration"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_movie_year"
+                android:layout_toRightOf="@id/iv_movie_poster"
+                android:text="120 min" />
+
+            <TextView
+                android:id="@+id/tv_movie_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/iv_movie_poster"
+                android:text="test test test test test test test test test test test test test test test test " />
+
+            <RatingBar
+                android:id="@+id/rb_movie_rating"
+                style="@style/Widget.AppCompat.RatingBar.Small"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_movie_duration"
+                android:layout_toRightOf="@+id/iv_movie_poster"
+                android:numStars="5"
+                android:rating="3.3"
+                android:stepSize="0.1" />
+
+        </RelativeLayout>
+    </ScrollView>
+</LinearLayout>

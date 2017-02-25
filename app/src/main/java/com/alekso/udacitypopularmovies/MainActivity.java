@@ -5,6 +5,9 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -63,4 +66,24 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnMo
 
         App.getInstance(this).addToRequestQueue(jsonRequest);
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.action_sort) {
+            // TODO: 25/02/2017 implement sorting
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
 }

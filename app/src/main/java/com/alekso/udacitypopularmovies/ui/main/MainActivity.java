@@ -7,8 +7,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import com.alekso.udacitypopularmovies.R;
-import com.alekso.udacitypopularmovies.data.source.Repository;
-import com.alekso.udacitypopularmovies.data.source.remote.RemoteDataSource;
+import com.alekso.udacitypopularmovies.domain.source.Repository;
+import com.alekso.udacitypopularmovies.domain.source.remote.RemoteDataSource;
 
 /**
  * Main app activity. Will list popular movies picture in a recyclerView.

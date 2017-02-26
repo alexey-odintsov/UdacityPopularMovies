@@ -9,7 +9,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.alekso.udacitypopularmovies.R;
-import com.alekso.udacitypopularmovies.model.Movie;
+import com.alekso.udacitypopularmovies.domain.model.Movie;
+
+import org.w3c.dom.Text;
 
 /**
  * Created by alekso on 24/02/2017.
@@ -20,6 +22,8 @@ public class DetailsFragment extends Fragment implements DetailsContract.View {
     private DetailsContract.Presenter mPresenter;
 
     private TextView mTextViewMovieId;
+    private TextView mTextViewMovieTitle;
+    private TextView mTextViewMovieOverview;
     private long mMovieId;
 
     public DetailsFragment() {
@@ -45,6 +49,8 @@ public class DetailsFragment extends Fragment implements DetailsContract.View {
         super.onViewCreated(view, savedInstanceState);
 
         mTextViewMovieId = (TextView) view.findViewById(R.id.tv_movie_id);
+        mTextViewMovieTitle = (TextView) view.findViewById(R.id.tv_movie_title);
+        mTextViewMovieOverview = (TextView) view.findViewById(R.id.tv_movie_description);
     }
 
     @Override
@@ -61,6 +67,8 @@ public class DetailsFragment extends Fragment implements DetailsContract.View {
     @Override
     public void showMovieInfo(Movie movie) {
         mTextViewMovieId.setText(Long.toString(mMovieId));
+        mTextViewMovieTitle.setText(movie.getTitle());
+        mTextViewMovieOverview.setText(movie.getOverview());
     }
 
     @Override

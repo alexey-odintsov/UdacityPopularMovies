@@ -1,6 +1,6 @@
 package com.alekso.udacitypopularmovies.ui.main;
 
-import com.alekso.udacitypopularmovies.model.Movie;
+import com.alekso.udacitypopularmovies.domain.model.Movie;
 import com.alekso.udacitypopularmovies.ui.BasePresenter;
 import com.alekso.udacitypopularmovies.ui.BaseView;
 

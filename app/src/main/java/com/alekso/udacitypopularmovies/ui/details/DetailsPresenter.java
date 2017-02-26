@@ -1,8 +1,8 @@
 package com.alekso.udacitypopularmovies.ui.details;
 
-import com.alekso.udacitypopularmovies.data.source.DataSource;
-import com.alekso.udacitypopularmovies.data.source.Repository;
-import com.alekso.udacitypopularmovies.model.Movie;
+import com.alekso.udacitypopularmovies.domain.source.DataSource;
+import com.alekso.udacitypopularmovies.domain.source.Repository;
+import com.alekso.udacitypopularmovies.domain.model.Movie;
 
 /**
  * Created by alekso on 26/02/2017.

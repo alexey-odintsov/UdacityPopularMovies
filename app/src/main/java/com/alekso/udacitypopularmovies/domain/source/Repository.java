@@ -1,8 +1,4 @@
-package com.alekso.udacitypopularmovies.data.source;
-
-import com.alekso.udacitypopularmovies.model.Movie;
-
-import java.util.List;
+package com.alekso.udacitypopularmovies.domain.source;
 
 /**
  * Created by alekso on 26/02/2017.

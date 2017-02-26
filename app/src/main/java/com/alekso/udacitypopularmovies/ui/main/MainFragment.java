@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.alekso.udacitypopularmovies.App;
-import com.alekso.udacitypopularmovies.model.Movie;
+import com.alekso.udacitypopularmovies.domain.model.Movie;
 import com.alekso.udacitypopularmovies.R;
 import com.alekso.udacitypopularmovies.ui.details.DetailsActivity;
 

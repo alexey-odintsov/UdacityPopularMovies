@@ -1,6 +1,6 @@
-package com.alekso.udacitypopularmovies.data.source;
+package com.alekso.udacitypopularmovies.domain.source;
 
-import com.alekso.udacitypopularmovies.model.Movie;
+import com.alekso.udacitypopularmovies.domain.model.Movie;
 
 import java.util.List;
 

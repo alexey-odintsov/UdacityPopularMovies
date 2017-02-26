@@ -1,12 +1,13 @@
-package com.alekso.udacitypopularmovies.data.source.remote;
+package com.alekso.udacitypopularmovies.domain.source.remote;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.alekso.udacitypopularmovies.App;
 import com.alekso.udacitypopularmovies.BuildConfig;
-import com.alekso.udacitypopularmovies.data.source.DataSource;
-import com.alekso.udacitypopularmovies.model.Movie;
-import com.alekso.udacitypopularmovies.model.MoviesReader;
+import com.alekso.udacitypopularmovies.domain.source.DataSource;
+import com.alekso.udacitypopularmovies.domain.model.Movie;
+import com.alekso.udacitypopularmovies.domain.model.MoviesReader;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -22,11 +23,14 @@ import java.util.List;
 
 public class RemoteDataSource implements DataSource {
 
+    private static final String TAG = RemoteDataSource.class.getSimpleName();
+
     private static final String PROTOCOL = "http://";
     private static final String HOST = "api.themoviedb.org";
     private static final String API_LEVEL = "/3";
     private static final String POPULAR_MOVIES = "/movie/popular";
     private static final String TOP_RATED_MOVIES = "/movie/top_rated";
+    private static final String MOVIE_DETAILS = "/movie";
     private static RemoteDataSource sInstance;
     private Context mContext;
 
@@ -68,6 +72,10 @@ public class RemoteDataSource implements DataSource {
         return PROTOCOL + HOST + API_LEVEL + TOP_RATED_MOVIES + "?api_key=" + BuildConfig.THE_MOVIE_DB_API_TOKEN;
     }
 
+    private String getMovieDetailsUrl(long movieId) {
+        return PROTOCOL + HOST + API_LEVEL + MOVIE_DETAILS + "/" + Long.toString(movieId) + "?api_key=" + BuildConfig.THE_MOVIE_DB_API_TOKEN;
+    }
+
     @Override
     public void getMovies(final LoadMoviesListener listener) {
         JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.GET,
@@ -75,7 +83,7 @@ public class RemoteDataSource implements DataSource {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        List<Movie> movies = MoviesReader.parse(response);
+                        List<Movie> movies = MoviesReader.parseMoviesList(response);
                         listener.onSuccess(movies);
                     }
                 },
@@ -90,8 +98,25 @@ public class RemoteDataSource implements DataSource {
     }
 
     @Override
-    public void getMovieDetails(long movieId, LoadMovieDetailsListener listener) {
-        // TODO: 26/02/2017 implement details loading
-        listener.onError("Loading for movie " + movieId);
+    public void getMovieDetails(final long movieId, final LoadMovieDetailsListener listener) {
+        JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.GET,
+                getMovieDetailsUrl(movieId), null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.d(TAG, "MOVIE: " + response);
+                        Movie movie = MoviesReader.parseMovieDetails(response);
+                        listener.onSuccess(movie);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        listener.onError("Loading for movie " + movieId);
+                    }
+                });
+
+        App.getInstance(mContext).addToRequestQueue(jsonRequest);
     }
+
 }

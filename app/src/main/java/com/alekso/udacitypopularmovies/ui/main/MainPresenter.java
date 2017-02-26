@@ -1,10 +1,8 @@
 package com.alekso.udacitypopularmovies.ui.main;
 
-import android.util.Log;
-
-import com.alekso.udacitypopularmovies.data.source.DataSource;
-import com.alekso.udacitypopularmovies.data.source.Repository;
-import com.alekso.udacitypopularmovies.model.Movie;
+import com.alekso.udacitypopularmovies.domain.source.DataSource;
+import com.alekso.udacitypopularmovies.domain.source.Repository;
+import com.alekso.udacitypopularmovies.domain.model.Movie;
 
 import java.util.List;
 

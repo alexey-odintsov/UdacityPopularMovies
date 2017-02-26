@@ -67,25 +67,32 @@ public class MoviesReader {
                 .setTitle(movieDetailsResponse.title)
                 .setOverview(movieDetailsResponse.overview)
                 .setPoster(movieDetailsResponse.poster)
+                .setDuration(movieDetailsResponse.duration)
+                .setReleaseDate(movieDetailsResponse.releaseDate)
+                .setRating(movieDetailsResponse.rating)
                 .build();
         return movie;
     }
 
 
+    /**
+     * Response model for Movie details request
+     */
     class MovieDetailsResponse {
         private long id;
         private String title;
-        //@SerializedName("overview")
         private String overview;
         private String poster;
-
-        public String toString() {
-            return title;
-        }
+        @SerializedName("runtime")
+        private int duration;
+        @SerializedName("release_date")
+        private String releaseDate;
+        @SerializedName("vote_average")
+        private float rating;
     }
 
     /**
-     * Class represents API response
+     * Response model form Movies list request
      */
     class MoviesResponse {
         List<MovieItem> results;

@@ -13,18 +13,12 @@ import com.android.volley.toolbox.Volley;
  * Created by alekso on 20/02/2017.
  */
 
-class App {
+public class App {
     /**
      * Intent extra to pass a movie id
      */
     public static final String EXTRA_MOVIE_ID = "movie_id";
 
-
-    private static final String PROTOCOL = "http://";
-    private static final String HOST = "api.themoviedb.org";
-    private static final String API_LEVEL = "/3";
-    private static final String POPULAR_MOVIES = "/movie/popular";
-    private static final String TOP_RATED_MOVIES = "/movie/top_rated";
 
     /**
      * Instance of the class
@@ -55,14 +49,6 @@ class App {
                         cache.put(url, bitmap);
                     }
                 });
-    }
-
-    public static String getPopularMoviesUrl() {
-        return PROTOCOL + HOST + API_LEVEL + POPULAR_MOVIES + "?api_key=" + BuildConfig.THE_MOVIE_DB_API_TOKEN;
-    }
-
-    public static String getTopRatedMoviesUrl() {
-        return PROTOCOL + HOST + API_LEVEL + TOP_RATED_MOVIES + "?api_key=" + BuildConfig.THE_MOVIE_DB_API_TOKEN;
     }
 
     /**

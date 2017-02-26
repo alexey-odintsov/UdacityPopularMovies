@@ -1,4 +1,4 @@
-package com.alekso.udacitypopularmovies;
+package com.alekso.udacitypopularmovies.model;
 
 import com.google.gson.annotations.SerializedName;
 

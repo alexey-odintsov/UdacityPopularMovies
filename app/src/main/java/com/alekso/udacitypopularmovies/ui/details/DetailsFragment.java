@@ -1,4 +1,4 @@
-package com.alekso.udacitypopularmovies;
+package com.alekso.udacitypopularmovies.ui.details;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -8,11 +8,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.alekso.udacitypopularmovies.R;
+import com.alekso.udacitypopularmovies.model.Movie;
+
 /**
  * Created by alekso on 24/02/2017.
  */
 
-public class DetailsFragment extends Fragment {
+public class DetailsFragment extends Fragment implements DetailsContract.View {
+
+    private DetailsContract.Presenter mPresenter;
 
     private TextView mTextViewMovieId;
     private long mMovieId;
@@ -40,6 +45,26 @@ public class DetailsFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         mTextViewMovieId = (TextView) view.findViewById(R.id.tv_movie_id);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mPresenter.start();
+    }
+
+    @Override
+    public void showLoadingIndicator() {
+
+    }
+
+    @Override
+    public void showMovieInfo(Movie movie) {
         mTextViewMovieId.setText(Long.toString(mMovieId));
+    }
+
+    @Override
+    public void setPresenter(DetailsContract.Presenter presenter) {
+        mPresenter = presenter;
     }
 }

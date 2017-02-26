@@ -1,4 +1,4 @@
-package com.alekso.udacitypopularmovies;
+package com.alekso.udacitypopularmovies.ui.main;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -6,6 +6,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.alekso.udacitypopularmovies.model.Movie;
+import com.alekso.udacitypopularmovies.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,6 +47,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesAdap
 
     public void setMoviesData(List<Movie> movies) {
         mMoviesList = movies;
+        notifyDataSetChanged();
     }
 
     public interface MoviesAdapterOnClickHandler {

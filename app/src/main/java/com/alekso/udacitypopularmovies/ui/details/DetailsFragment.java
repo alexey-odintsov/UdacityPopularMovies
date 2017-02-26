@@ -11,8 +11,10 @@ import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.alekso.udacitypopularmovies.App;
 import com.alekso.udacitypopularmovies.R;
 import com.alekso.udacitypopularmovies.domain.model.Movie;
+import com.android.volley.toolbox.NetworkImageView;
 
 import org.w3c.dom.Text;
 
@@ -31,6 +33,7 @@ public class DetailsFragment extends Fragment implements DetailsContract.View {
     private TextView mTextViewMovieOverview;
     private TextView mTextViewMovieDuration;
     private TextView mTextViewMovieReleaseDate;
+    private NetworkImageView mImageViewPoster;
     private RatingBar mRatingBar;
 
     private long mMovieId;
@@ -64,6 +67,7 @@ public class DetailsFragment extends Fragment implements DetailsContract.View {
         mTextViewMovieOverview = (TextView) view.findViewById(R.id.tv_movie_description);
         mTextViewMovieDuration = (TextView) view.findViewById(R.id.tv_movie_duration);
         mTextViewMovieReleaseDate = (TextView) view.findViewById(R.id.tv_movie_year);
+        mImageViewPoster = (NetworkImageView) view.findViewById(R.id.iv_movie_poster);
         mRatingBar = (RatingBar) view.findViewById(R.id.rb_movie_rating);
     }
 
@@ -87,6 +91,7 @@ public class DetailsFragment extends Fragment implements DetailsContract.View {
         mTextViewMovieDuration.setText(String.valueOf(movie.getDuration()));
         // TODO: 26/02/2017 format date to current locale
         mTextViewMovieReleaseDate.setText(movie.getReleaseDate());
+        mImageViewPoster.setImageUrl(App.getPosterUrl(500, movie.getPoster()), App.getInstance(getContext()).getImageLoader());
         mRatingBar.setRating(movie.getRating());
 
         mProgressBar.setVisibility(View.GONE);

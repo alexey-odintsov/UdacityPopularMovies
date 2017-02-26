@@ -82,6 +82,7 @@ public class MoviesReader {
         private long id;
         private String title;
         private String overview;
+        @SerializedName("poster_path")
         private String poster;
         @SerializedName("runtime")
         private int duration;

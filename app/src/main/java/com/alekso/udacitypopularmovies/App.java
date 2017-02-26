@@ -19,7 +19,8 @@ public class App {
      * Intent extra to pass a movie id
      */
     public static final String EXTRA_MOVIE_ID = "movie_id";
-
+    private static final String IMAGE_BASE_URL = "https://image.tmdb.org/t/p/";
+    private static final String IMAGE_SIZE_PREFIX = "w";
 
     /**
      * Instance of the class
@@ -97,4 +98,7 @@ public class App {
         return mImageLoader;
     }
 
+    public static String getPosterUrl(int size, String path) {
+        return IMAGE_BASE_URL + IMAGE_SIZE_PREFIX + String.valueOf(size) + "/" + path;
+    }
 }

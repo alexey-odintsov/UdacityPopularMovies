@@ -31,6 +31,8 @@ import static com.alekso.udacitypopularmovies.domain.source.DataSource.SORT_TOP_
 
 public class MainFragment extends Fragment implements MainContract.View {
 
+    public static final String STATE_SORT = "sort";
+
     private MainContract.Presenter mPresenter;
 
     private ProgressBar mProgressBar;
@@ -67,6 +69,14 @@ public class MainFragment extends Fragment implements MainContract.View {
         setHasOptionsMenu(true);
     }
 
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putInt(STATE_SORT, mPresenter.getSort());
+    }
+
     @Override
     public void onResume() {
         super.onResume();
@@ -91,6 +101,12 @@ public class MainFragment extends Fragment implements MainContract.View {
 
         mProgressBar = (ProgressBar) view.findViewById(R.id.pb_progress);
         mTextViewStatus = (TextView) view.findViewById(R.id.tv_status);
+
+
+        if (savedInstanceState != null) {
+            mPresenter.setSort(savedInstanceState.getInt(STATE_SORT, SORT_POPULARITY));
+        }
+
     }
 
     @Override

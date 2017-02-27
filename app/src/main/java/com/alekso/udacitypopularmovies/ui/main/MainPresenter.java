@@ -6,6 +6,8 @@ import com.alekso.udacitypopularmovies.domain.model.Movie;
 
 import java.util.List;
 
+import static com.alekso.udacitypopularmovies.domain.source.DataSource.SORT_POPULARITY;
+
 /**
  * Created by alekso on 26/02/2017.
  */
@@ -13,9 +15,9 @@ import java.util.List;
 public class MainPresenter implements MainContract.Presenter {
 
     private static final String TAG = MainPresenter.class.getSimpleName();
-
     private final Repository mRepository;
     private final MainContract.View mView;
+    private int mSort = SORT_POPULARITY;
 
     /**
      * @param repository
@@ -30,7 +32,7 @@ public class MainPresenter implements MainContract.Presenter {
 
     @Override
     public void loadMovies() {
-        mRepository.getMovies(new DataSource.LoadMoviesListener() {
+        mRepository.getMovies(mSort, new DataSource.LoadMoviesListener() {
             @Override
             public void onSuccess(List<Movie> movies) {
                 mView.showMovies(movies);
@@ -46,6 +48,11 @@ public class MainPresenter implements MainContract.Presenter {
     @Override
     public void movieClick(long id) {
         mView.showMovieDetailsActivity(id);
+    }
+
+    @Override
+    public void setSort(int sort) {
+        mSort = sort;
     }
 
     @Override

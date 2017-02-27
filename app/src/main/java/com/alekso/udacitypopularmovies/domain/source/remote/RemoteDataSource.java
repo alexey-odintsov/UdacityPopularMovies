@@ -1,6 +1,7 @@
 package com.alekso.udacitypopularmovies.domain.source.remote;
 
 import android.content.Context;
+import android.net.Uri;
 import android.util.Log;
 
 import com.alekso.udacitypopularmovies.App;
@@ -16,6 +17,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import org.json.JSONObject;
 
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by alekso on 26/02/2017.
@@ -27,10 +29,10 @@ public class RemoteDataSource implements DataSource {
 
     private static final String PROTOCOL = "http://";
     private static final String HOST = "api.themoviedb.org";
-    private static final String API_LEVEL = "/3";
-    private static final String POPULAR_MOVIES = "/movie/popular";
-    private static final String TOP_RATED_MOVIES = "/movie/top_rated";
-    private static final String MOVIE_DETAILS = "/movie";
+    private static final String API_LEVEL = "3";
+    private static final String POPULAR_MOVIES = "popular";
+    private static final String TOP_RATED_MOVIES = "top_rated";
+    private static final String MOVIE = "movie";
     private static RemoteDataSource sInstance;
     private Context mContext;
 
@@ -60,7 +62,14 @@ public class RemoteDataSource implements DataSource {
      * @return
      */
     private static String getPopularMoviesUrl() {
-        return PROTOCOL + HOST + API_LEVEL + POPULAR_MOVIES + "?api_key=" + BuildConfig.THE_MOVIE_DB_API_TOKEN;
+        Uri uri = Uri.parse(PROTOCOL + HOST).buildUpon()
+                .appendPath(API_LEVEL)
+                .appendPath(MOVIE)
+                .appendPath(POPULAR_MOVIES)
+                .appendQueryParameter("api_key", BuildConfig.THE_MOVIE_DB_API_TOKEN)
+                .appendQueryParameter("language", Locale.getDefault().getISO3Country())
+                .build();
+        return uri.toString();
     }
 
     /**
@@ -69,17 +78,42 @@ public class RemoteDataSource implements DataSource {
      * @return
      */
     private static String getTopRatedMoviesUrl() {
-        return PROTOCOL + HOST + API_LEVEL + TOP_RATED_MOVIES + "?api_key=" + BuildConfig.THE_MOVIE_DB_API_TOKEN;
+        Uri uri = Uri.parse(PROTOCOL + HOST).buildUpon()
+                .appendPath(API_LEVEL)
+                .appendPath(MOVIE)
+                .appendPath(TOP_RATED_MOVIES)
+                .appendQueryParameter("api_key", BuildConfig.THE_MOVIE_DB_API_TOKEN)
+                .appendQueryParameter("language", Locale.getDefault().getISO3Country())
+                .build();
+        return uri.toString();
     }
 
     private String getMovieDetailsUrl(long movieId) {
-        return PROTOCOL + HOST + API_LEVEL + MOVIE_DETAILS + "/" + Long.toString(movieId) + "?api_key=" + BuildConfig.THE_MOVIE_DB_API_TOKEN;
+        Uri uri = Uri.parse(PROTOCOL + HOST).buildUpon()
+                .appendPath(API_LEVEL)
+                .appendPath(MOVIE)
+                .appendPath(Long.toString(movieId))
+                .appendQueryParameter("api_key", BuildConfig.THE_MOVIE_DB_API_TOKEN)
+                .appendQueryParameter("language", Locale.getDefault().getISO3Country())
+                .build();
+        return uri.toString();
     }
 
     @Override
-    public void getMovies(final LoadMoviesListener listener) {
+    public void getMovies(int sort, final LoadMoviesListener listener) {
+        String url;
+
+        switch (sort) {
+            case SORT_TOP_RATED:
+                url = getTopRatedMoviesUrl();
+                break;
+            case SORT_POPULARITY:
+            default:
+                url = getPopularMoviesUrl();
+        }
+
         JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.GET,
-                getTopRatedMoviesUrl(), null,
+                url, null,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {

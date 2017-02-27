@@ -23,6 +23,8 @@ public interface MainContract {
          * @param id
          */
         void movieClick(long id);
+
+        void setSort(int sort);
     }
 
     interface View extends BaseView<Presenter> {

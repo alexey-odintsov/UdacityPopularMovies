@@ -40,8 +40,8 @@ public class Repository implements DataSource {
     }
 
     @Override
-    public void getMovies(LoadMoviesListener listener) {
-        mRemoteDataSource.getMovies(listener);
+    public void getMovies(int sort, LoadMoviesListener listener) {
+        mRemoteDataSource.getMovies(sort, listener);
     }
 
     @Override

@@ -9,10 +9,14 @@ import java.util.List;
  */
 
 public interface DataSource {
+    public static final int SORT_POPULARITY = 0;
+    public static final int SORT_TOP_RATED = 1;
+
+
     /**
      * Loads list of movies
      */
-    void getMovies(LoadMoviesListener listener);
+    void getMovies(int sort, LoadMoviesListener listener);
 
     void getMovieDetails(long movieId, LoadMovieDetailsListener listener);
 

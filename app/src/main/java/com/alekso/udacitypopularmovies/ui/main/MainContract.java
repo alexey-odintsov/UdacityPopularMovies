@@ -24,6 +24,18 @@ public interface MainContract {
          */
         void movieClick(long id);
 
+        /**
+         * Returns current sort
+         *
+         * @return
+         */
+        int getSort();
+
+        /**
+         * Sets sort
+         *
+         * @param sort
+         */
         void setSort(int sort);
     }
 

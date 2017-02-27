@@ -51,12 +51,16 @@ public class MainPresenter implements MainContract.Presenter {
     }
 
     @Override
-    public void setSort(int sort) {
-        mSort = sort;
+    public void start() {
+        loadMovies();
+    }
+
+    public int getSort() {
+        return mSort;
     }
 
     @Override
-    public void start() {
-        loadMovies();
+    public void setSort(int sort) {
+        mSort = sort;
     }
 }

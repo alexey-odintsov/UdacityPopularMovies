@@ -7,6 +7,9 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
@@ -18,6 +21,9 @@ import com.alekso.udacitypopularmovies.domain.model.Movie;
 import com.alekso.udacitypopularmovies.ui.details.DetailsActivity;
 
 import java.util.List;
+
+import static com.alekso.udacitypopularmovies.domain.source.DataSource.SORT_POPULARITY;
+import static com.alekso.udacitypopularmovies.domain.source.DataSource.SORT_TOP_RATED;
 
 /**
  * Created by alekso on 23/02/2017.
@@ -57,6 +63,8 @@ public class MainFragment extends Fragment implements MainContract.View {
                 mPresenter.movieClick(movieId);
             }
         });
+
+        setHasOptionsMenu(true);
     }
 
     @Override
@@ -113,5 +121,37 @@ public class MainFragment extends Fragment implements MainContract.View {
     @Override
     public void setPresenter(MainContract.Presenter presenter) {
         mPresenter = presenter;
+    }
+
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.main, menu);
+        switch (mPresenter.getSort()) {
+            case SORT_POPULARITY:
+                menu.findItem(R.id.action_sort_popularity).setChecked(true);
+                break;
+            case SORT_TOP_RATED:
+                menu.findItem(R.id.action_sort_toprated).setChecked(true);
+                break;
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_sort_popularity:
+                item.setChecked(true);
+                mPresenter.setSort(SORT_POPULARITY);
+                mPresenter.loadMovies();
+                return true;
+            case R.id.action_sort_toprated:
+                item.setChecked(true);
+                mPresenter.setSort(SORT_TOP_RATED);
+                mPresenter.loadMovies();
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }

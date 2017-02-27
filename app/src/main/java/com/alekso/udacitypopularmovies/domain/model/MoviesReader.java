@@ -7,8 +7,13 @@ import com.google.gson.annotations.SerializedName;
 
 import org.json.JSONObject;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Parses data from JSON response
@@ -19,6 +24,7 @@ import java.util.List;
 public class MoviesReader {
 
     public static final String TAG = MoviesReader.class.getSimpleName();
+    public static final SimpleDateFormat sDateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
 
     /**
      * Parses list of movies from JSON response
@@ -58,22 +64,31 @@ public class MoviesReader {
      * @return
      */
     public static Movie parseMovieDetails(JSONObject response) {
-        Movie movie = null;
         Gson gson = new Gson();
 
+
         MovieDetailsResponse movieDetailsResponse = gson.fromJson(response.toString(), MovieDetailsResponse.class);
-        movie = new Movie.Builder()
+
+
+        Movie.Builder builder = new Movie.Builder()
                 .setId(movieDetailsResponse.id)
                 .setTitle(movieDetailsResponse.title)
                 .setOriginalTitle(movieDetailsResponse.originalTitle)
                 .setOverview(movieDetailsResponse.overview)
                 .setPoster(movieDetailsResponse.poster)
                 .setDuration(movieDetailsResponse.duration)
-                .setReleaseDate(movieDetailsResponse.releaseDate)
                 .setRating(movieDetailsResponse.rating)
-                .setBackdrop(movieDetailsResponse.backdrop)
-                .build();
-        return movie;
+                .setBackdrop(movieDetailsResponse.backdrop);
+
+        try {
+            Date date = sDateFormat.parse(movieDetailsResponse.releaseDate);
+            builder.setReleaseDate(DateFormat.getDateInstance().format(date));
+        } catch (ParseException e) {
+            e.printStackTrace();
+            builder.setReleaseDate(movieDetailsResponse.releaseDate);
+        }
+
+        return builder.build();
     }
 
 

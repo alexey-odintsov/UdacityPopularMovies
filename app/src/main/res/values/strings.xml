@@ -3,4 +3,6 @@
     <string name="menu_main_sort">Sort</string>
     <string name="sort_most_popular">Most popular</string>
     <string name="sort_highest_rated">Highest rated</string>
+    <string name="details_duration_min">" min"</string>
+    <string name="details_original_title">"Original title: "</string>
 </resources>

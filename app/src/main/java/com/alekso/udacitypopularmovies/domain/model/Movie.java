@@ -6,6 +6,7 @@ package com.alekso.udacitypopularmovies.domain.model;
 public class Movie {
     private long mId;
     private String mTitle;
+    private String mOriginalTitle;
     private String mOverview;
     private String mPoster;
     private String mBackdrop;
@@ -16,6 +17,7 @@ public class Movie {
     public Movie(Builder builder) {
         this.mId = builder.id;
         this.mTitle = builder.title;
+        this.mOriginalTitle = builder.originalTitle;
         this.mOverview = builder.overview;
         this.mPoster = builder.poster;
         this.mDuration = builder.duration;
@@ -30,6 +32,10 @@ public class Movie {
 
     public String getTitle() {
         return mTitle;
+    }
+
+    public String getOriginalTitle() {
+        return mOriginalTitle;
     }
 
     public String getOverview() {
@@ -63,6 +69,7 @@ public class Movie {
 
         private long id = 0;
         private String title = "";
+        private String originalTitle = "";
         private String overview = "";
         private String poster = "";
         private String backdrop = "";
@@ -80,6 +87,11 @@ public class Movie {
 
         public Builder setTitle(String title) {
             this.title = title;
+            return this;
+        }
+
+        public Builder setOriginalTitle(String originalTitle) {
+            this.originalTitle = originalTitle;
             return this;
         }
 

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Популярные фильмы</string>
+    <string name="menu_main_sort">Сортировка</string>
+    <string name="sort_most_popular">Самые популярные</string>
+    <string name="sort_highest_rated">Наивысший рейтинг</string>
+    <string name="details_duration_min">" мин"</string>
+    <string name="details_original_title">"Оригинальное название: "</string>
+
+</resources>

@@ -65,6 +65,7 @@ public class MoviesReader {
         movie = new Movie.Builder()
                 .setId(movieDetailsResponse.id)
                 .setTitle(movieDetailsResponse.title)
+                .setOriginalTitle(movieDetailsResponse.originalTitle)
                 .setOverview(movieDetailsResponse.overview)
                 .setPoster(movieDetailsResponse.poster)
                 .setDuration(movieDetailsResponse.duration)
@@ -81,6 +82,8 @@ public class MoviesReader {
      */
     class MovieDetailsResponse {
         private long id;
+        @SerializedName("original_title")
+        private String originalTitle;
         private String title;
         private String overview;
         @SerializedName("poster_path")

@@ -27,6 +27,7 @@ public class DetailsFragment extends Fragment implements DetailsContract.View {
     private ProgressBar mProgressBar;
     private TextView mTextViewMovieId;
     private TextView mTextViewMovieTitle;
+    private TextView mTextViewMovieOriginalTitle;
     private TextView mTextViewMovieOverview;
     private TextView mTextViewMovieDuration;
     private TextView mTextViewMovieReleaseDate;
@@ -62,6 +63,7 @@ public class DetailsFragment extends Fragment implements DetailsContract.View {
         mProgressBar = (ProgressBar) view.findViewById(R.id.pb_progress);
         mTextViewMovieId = (TextView) view.findViewById(R.id.tv_movie_id);
         mTextViewMovieTitle = (TextView) view.findViewById(R.id.tv_movie_title);
+        mTextViewMovieOriginalTitle = (TextView) view.findViewById(R.id.tv_movie_original_title);
         mTextViewMovieOverview = (TextView) view.findViewById(R.id.tv_movie_description);
         mTextViewMovieDuration = (TextView) view.findViewById(R.id.tv_movie_duration);
         mTextViewMovieReleaseDate = (TextView) view.findViewById(R.id.tv_movie_year);
@@ -86,8 +88,9 @@ public class DetailsFragment extends Fragment implements DetailsContract.View {
     public void showMovieInfo(Movie movie) {
         mTextViewMovieId.setText(Long.toString(mMovieId));
         mTextViewMovieTitle.setText(movie.getTitle());
+        mTextViewMovieOriginalTitle.setText(getString(R.string.details_original_title) + movie.getOriginalTitle());
         mTextViewMovieOverview.setText(movie.getOverview());
-        mTextViewMovieDuration.setText(String.valueOf(movie.getDuration()));
+        mTextViewMovieDuration.setText(String.valueOf(movie.getDuration()) + getString(R.string.details_duration_min));
         // TODO: 26/02/2017 format date to current locale
         mTextViewMovieReleaseDate.setText(movie.getReleaseDate());
         mImageViewPoster.setImageUrl(App.getPosterUrl("w500", movie.getPoster()), App.getInstance(getContext()).getImageLoader());

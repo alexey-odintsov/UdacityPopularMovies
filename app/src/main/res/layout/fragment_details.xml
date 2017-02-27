@@ -18,21 +18,25 @@
         <com.android.volley.toolbox.NetworkImageView
             android:id="@+id/iv_movie_backdrop"
             android:layout_width="match_parent"
+            android:layout_height="150dp"
             android:background="@color/colorPrimaryDark"
-            android:layout_height="100dp"
             android:scaleType="centerCrop" />
 
         <TextView
             android:id="@+id/tv_movie_title"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="150dp"
             android:paddingBottom="20dp"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:paddingTop="20dp"
+            android:shadowColor="#000"
+            android:shadowDx="0.0"
+            android:shadowDy="0.0"
+            android:shadowRadius="10"
             android:text="MOVIE TITLE"
             android:textColor="@android:color/white"
-            android:textSize="30sp" />
+            android:textSize="36sp" />
 
         <ScrollView
             android:layout_width="match_parent"
@@ -62,9 +66,18 @@
                     android:layout_height="160dp" />
 
                 <TextView
+                    android:id="@+id/tv_movie_original_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/iv_movie_poster"
+                    android:text="Original title"
+                    android:textSize="20sp" />
+
+                <TextView
                     android:id="@+id/tv_movie_year"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_movie_original_title"
                     android:layout_toRightOf="@id/iv_movie_poster"
                     android:text="2016" />
 
@@ -81,6 +94,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/iv_movie_poster"
+                    android:padding="5dp"
                     android:text="test test test test test test test test test test test test test test test test " />
 
                 <RatingBar

@@ -6,7 +6,6 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -16,8 +15,6 @@ import com.alekso.udacitypopularmovies.R;
 import com.alekso.udacitypopularmovies.domain.model.Movie;
 import com.android.volley.toolbox.NetworkImageView;
 
-import org.w3c.dom.Text;
-
 /**
  * Created by alekso on 24/02/2017.
  */
@@ -26,7 +23,7 @@ public class DetailsFragment extends Fragment implements DetailsContract.View {
 
     private DetailsContract.Presenter mPresenter;
 
-    private LinearLayout mLinearLayoutDetails;
+    private ViewGroup mViewGroupDetails;
     private ProgressBar mProgressBar;
     private TextView mTextViewMovieId;
     private TextView mTextViewMovieTitle;
@@ -34,6 +31,7 @@ public class DetailsFragment extends Fragment implements DetailsContract.View {
     private TextView mTextViewMovieDuration;
     private TextView mTextViewMovieReleaseDate;
     private NetworkImageView mImageViewPoster;
+    private NetworkImageView mImageViewBackdrop;
     private RatingBar mRatingBar;
 
     private long mMovieId;
@@ -60,7 +58,7 @@ public class DetailsFragment extends Fragment implements DetailsContract.View {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        mLinearLayoutDetails = (LinearLayout) view.findViewById(R.id.ll_details);
+        mViewGroupDetails = (ViewGroup) view.findViewById(R.id.ll_details);
         mProgressBar = (ProgressBar) view.findViewById(R.id.pb_progress);
         mTextViewMovieId = (TextView) view.findViewById(R.id.tv_movie_id);
         mTextViewMovieTitle = (TextView) view.findViewById(R.id.tv_movie_title);
@@ -68,6 +66,7 @@ public class DetailsFragment extends Fragment implements DetailsContract.View {
         mTextViewMovieDuration = (TextView) view.findViewById(R.id.tv_movie_duration);
         mTextViewMovieReleaseDate = (TextView) view.findViewById(R.id.tv_movie_year);
         mImageViewPoster = (NetworkImageView) view.findViewById(R.id.iv_movie_poster);
+        mImageViewBackdrop = (NetworkImageView) view.findViewById(R.id.iv_movie_backdrop);
         mRatingBar = (RatingBar) view.findViewById(R.id.rb_movie_rating);
     }
 
@@ -80,7 +79,7 @@ public class DetailsFragment extends Fragment implements DetailsContract.View {
     @Override
     public void showLoadingIndicator() {
         mProgressBar.setVisibility(View.VISIBLE);
-        mLinearLayoutDetails.setVisibility(View.GONE);
+        mViewGroupDetails.setVisibility(View.GONE);
     }
 
     @Override
@@ -91,11 +90,12 @@ public class DetailsFragment extends Fragment implements DetailsContract.View {
         mTextViewMovieDuration.setText(String.valueOf(movie.getDuration()));
         // TODO: 26/02/2017 format date to current locale
         mTextViewMovieReleaseDate.setText(movie.getReleaseDate());
-        mImageViewPoster.setImageUrl(App.getPosterUrl(500, movie.getPoster()), App.getInstance(getContext()).getImageLoader());
+        mImageViewPoster.setImageUrl(App.getPosterUrl("w500", movie.getPoster()), App.getInstance(getContext()).getImageLoader());
+        mImageViewBackdrop.setImageUrl(App.getPosterUrl("original", movie.getBackdrop()), App.getInstance(getContext()).getImageLoader());
         mRatingBar.setRating(movie.getRating());
 
         mProgressBar.setVisibility(View.GONE);
-        mLinearLayoutDetails.setVisibility(View.VISIBLE);
+        mViewGroupDetails.setVisibility(View.VISIBLE);
     }
 
     @Override

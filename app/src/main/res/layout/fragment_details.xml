@@ -10,18 +10,22 @@
         android:layout_height="42dp"
         android:layout_gravity="center" />
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/ll_details"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
+        <com.android.volley.toolbox.NetworkImageView
+            android:id="@+id/iv_movie_backdrop"
+            android:layout_width="match_parent"
+            android:background="@color/colorPrimaryDark"
+            android:layout_height="100dp"
+            android:scaleType="centerCrop" />
 
         <TextView
             android:id="@+id/tv_movie_title"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/colorPrimaryDark"
+            android:layout_height="100dp"
             android:paddingBottom="20dp"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
@@ -32,7 +36,8 @@
 
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_movie_title">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -91,6 +96,6 @@
 
             </RelativeLayout>
         </ScrollView>
-    </LinearLayout>
+    </RelativeLayout>
 
 </LinearLayout>

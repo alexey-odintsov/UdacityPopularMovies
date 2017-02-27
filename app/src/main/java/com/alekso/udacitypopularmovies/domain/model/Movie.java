@@ -8,6 +8,7 @@ public class Movie {
     private String mTitle;
     private String mOverview;
     private String mPoster;
+    private String mBackdrop;
     private int mDuration;
     private String mReleaseDate; // // TODO: 26/02/2017 consider to use unix timestamp
     private float mRating;
@@ -20,6 +21,7 @@ public class Movie {
         this.mDuration = builder.duration;
         this.mReleaseDate = builder.releaseDate;
         this.mRating = builder.rating;
+        this.mBackdrop = builder.backdrop;
     }
 
     public long getId() {
@@ -50,6 +52,10 @@ public class Movie {
         return this.mRating;
     }
 
+    public String getBackdrop() {
+        return mBackdrop;
+    }
+
     /**
      *
      */
@@ -59,6 +65,7 @@ public class Movie {
         private String title = "";
         private String overview = "";
         private String poster = "";
+        private String backdrop = "";
         private int duration = 0;
         private String releaseDate = "1900-01-01";
         private float rating = 0.0f;
@@ -98,6 +105,11 @@ public class Movie {
 
         public Builder setRating(float rating) {
             this.rating = rating;
+            return this;
+        }
+
+        public Builder setBackdrop(String backdrop) {
+            this.backdrop = backdrop;
             return this;
         }
 

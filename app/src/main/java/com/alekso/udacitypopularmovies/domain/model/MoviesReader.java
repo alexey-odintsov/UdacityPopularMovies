@@ -70,6 +70,7 @@ public class MoviesReader {
                 .setDuration(movieDetailsResponse.duration)
                 .setReleaseDate(movieDetailsResponse.releaseDate)
                 .setRating(movieDetailsResponse.rating)
+                .setBackdrop(movieDetailsResponse.backdrop)
                 .build();
         return movie;
     }
@@ -84,6 +85,8 @@ public class MoviesReader {
         private String overview;
         @SerializedName("poster_path")
         private String poster;
+        @SerializedName("backdrop_path")
+        private String backdrop;
         @SerializedName("runtime")
         private int duration;
         @SerializedName("release_date")

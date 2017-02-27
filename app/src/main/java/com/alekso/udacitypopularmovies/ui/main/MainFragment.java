@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.alekso.udacitypopularmovies.App;
@@ -26,6 +27,7 @@ public class MainFragment extends Fragment implements MainContract.View {
 
     private MainContract.Presenter mPresenter;
 
+    private ProgressBar mProgressBar;
     private TextView mTextViewStatus;
     private RecyclerView mRecyclerView;
     private MoviesAdapter mAdapter;
@@ -79,21 +81,25 @@ public class MainFragment extends Fragment implements MainContract.View {
         mRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
         mRecyclerView.setAdapter(mAdapter);
 
+        mProgressBar = (ProgressBar) view.findViewById(R.id.pb_progress);
         mTextViewStatus = (TextView) view.findViewById(R.id.tv_status);
     }
 
     @Override
     public void showLoadingIndicator() {
+        mProgressBar.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void showMovies(List<Movie> movies) {
         mAdapter.setMoviesData(movies);
+        mProgressBar.setVisibility(View.GONE);
         mTextViewStatus.setVisibility(View.GONE);
     }
 
     @Override
     public void showErrorLoadingMovies(String message) {
+        mProgressBar.setVisibility(View.GONE);
         mTextViewStatus.setText(message);
     }
 

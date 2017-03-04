@@ -95,7 +95,7 @@ public class DetailsFragment extends Fragment implements DetailsContract.View {
         mTextViewMovieReleaseDate.setText(movie.getReleaseDate());
         mImageViewPoster.setImageUrl(App.getPosterUrl("w500", movie.getPoster()), App.getInstance(getContext()).getImageLoader());
         mImageViewBackdrop.setImageUrl(App.getPosterUrl("original", movie.getBackdrop()), App.getInstance(getContext()).getImageLoader());
-        mRatingBar.setRating(movie.getRating());
+        mRatingBar.setRating(movie.getRating() / 2f);
 
         mProgressBar.setVisibility(View.GONE);
         mViewGroupDetails.setVisibility(View.VISIBLE);

@@ -105,7 +105,7 @@
                     android:layout_below="@+id/tv_movie_duration"
                     android:layout_toRightOf="@+id/iv_movie_poster"
                     android:numStars="5"
-                    android:rating="3.3"
+                    android:rating="0.0"
                     android:stepSize="0.1" />
 
             </RelativeLayout>

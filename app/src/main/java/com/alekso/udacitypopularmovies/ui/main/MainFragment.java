@@ -1,6 +1,8 @@
 package com.alekso.udacitypopularmovies.ui.main;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -80,9 +82,23 @@ public class MainFragment extends Fragment implements MainContract.View {
     @Override
     public void onResume() {
         super.onResume();
+
+        SharedPreferences prefs = getActivity().getSharedPreferences(App.SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
+        mPresenter.setSort(prefs.getInt(App.SETTINGS_MOVIES_SORT, SORT_POPULARITY));
+
         if (mPresenter != null) {
             mPresenter.start();
         }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        SharedPreferences preferences = getActivity().getSharedPreferences(App.SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putInt(App.SETTINGS_MOVIES_SORT, mPresenter.getSort());
+        editor.commit();
     }
 
     @Nullable

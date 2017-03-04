@@ -14,12 +14,21 @@ import com.android.volley.toolbox.Volley;
  */
 
 public class App {
+
     /**
      * Intent extra to pass a movie id
      */
     public static final String EXTRA_MOVIE_ID = "movie_id";
-    private static final String IMAGE_BASE_URL = "https://image.tmdb.org/t/p/";
+    /**
+     * Shared preference file name
+     */
+    public static final String SHARED_PREFERENCES_NAME = "movies_prefs";
+    public static final String SETTINGS_MOVIES_SORT = "movies_sort";
 
+    /**
+     * Base Url for images loading
+     */
+    private static final String IMAGE_BASE_URL = "https://image.tmdb.org/t/p/";
     /**
      * Instance of the class
      */
@@ -99,4 +108,5 @@ public class App {
     public ImageLoader getImageLoader() {
         return mImageLoader;
     }
+
 }

@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:padding="8dp"
-        android:text="No data"
+        android:text="@string/n_a"
         android:textColor="@color/colorAccent"
         android:textSize="26sp"
         android:visibility="invisible" />
@@ -45,7 +45,7 @@
             android:shadowDx="0.0"
             android:shadowDy="0.0"
             android:shadowRadius="10"
-            android:text="MOVIE TITLE"
+            android:text="@string/n_a"
             android:textColor="@android:color/white"
             android:textSize="36sp" />
 
@@ -67,7 +67,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="DETAILS"
+                    android:text="@string/n_a"
                     android:textSize="30sp"
                     android:visibility="gone" />
 
@@ -81,7 +81,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_toRightOf="@id/iv_movie_poster"
-                    android:text="Original title"
+                    android:text="@string/n_a"
                     android:textSize="20sp" />
 
                 <TextView
@@ -90,7 +90,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/tv_movie_original_title"
                     android:layout_toRightOf="@id/iv_movie_poster"
-                    android:text="2016" />
+                    android:text="@string/n_a" />
 
                 <TextView
                     android:id="@+id/tv_movie_duration"
@@ -98,7 +98,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/tv_movie_year"
                     android:layout_toRightOf="@id/iv_movie_poster"
-                    android:text="120 min" />
+                    android:text="@string/n_a" />
 
                 <TextView
                     android:id="@+id/tv_movie_description"
@@ -106,7 +106,8 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/iv_movie_poster"
                     android:padding="5dp"
-                    android:text="test test test test test test test test test test test test test test test test " />
+                    android:textSize="18sp"
+                    android:text="@string/n_a" />
 
                 <RatingBar
                     android:id="@+id/rb_movie_rating"

@@ -4,8 +4,9 @@
     <string name="menu_main_sort">Сортировка</string>
     <string name="sort_most_popular">Самые популярные</string>
     <string name="sort_highest_rated">Наивысший рейтинг</string>
-    <string name="details_duration_min">" мин"</string>
-    <string name="details_original_title">"Оригинальное название: "</string>
+    <string name="details_duration_min">"%1$d мин"</string>
+    <string name="details_original_title">"Оригинальное название: %1$s"</string>
     <string name="no_internet_connection">Нет соединения с Интернет!</string>
+    <string name="n_a">N/A</string>
 
 </resources>

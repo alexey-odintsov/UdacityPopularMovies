@@ -9,7 +9,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:padding="8dp"
-        android:text="No data"
+        android:text="@string/n_a"
         android:textColor="@color/colorAccent"
         android:textSize="26sp"
         android:visibility="invisible" />

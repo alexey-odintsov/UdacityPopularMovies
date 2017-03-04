@@ -93,9 +93,9 @@ public class DetailsFragment extends Fragment implements DetailsContract.View {
 
         mTextViewMovieId.setText(Long.toString(mMovieId));
         mTextViewMovieTitle.setText(movie.getTitle());
-        mTextViewMovieOriginalTitle.setText(getString(R.string.details_original_title) + movie.getOriginalTitle());
+        mTextViewMovieOriginalTitle.setText(getString(R.string.details_original_title, movie.getOriginalTitle()));
         mTextViewMovieOverview.setText(movie.getOverview());
-        mTextViewMovieDuration.setText(String.valueOf(movie.getDuration()) + getString(R.string.details_duration_min));
+        mTextViewMovieDuration.setText(getString(R.string.details_duration_min, movie.getDuration()));
         mTextViewMovieReleaseDate.setText(movie.getReleaseDate());
         mImageViewPoster.setImageUrl(App.getPosterUrl("w500", movie.getPoster()), App.getInstance(getContext()).getImageLoader());
         mImageViewBackdrop.setImageUrl(App.getPosterUrl("original", movie.getBackdrop()), App.getInstance(getContext()).getImageLoader());

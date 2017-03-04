@@ -135,12 +135,15 @@ public class MainFragment extends Fragment implements MainContract.View {
         mAdapter.setMoviesData(movies);
         mProgressBar.setVisibility(View.GONE);
         mTextViewStatus.setVisibility(View.GONE);
+        mRecyclerView.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void showErrorLoadingMovies(String message) {
         mProgressBar.setVisibility(View.GONE);
+        mTextViewStatus.setVisibility(View.VISIBLE);
         mTextViewStatus.setText(message);
+        mRecyclerView.setVisibility(View.GONE);
     }
 
     @Override

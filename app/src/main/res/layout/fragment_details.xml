@@ -4,6 +4,17 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
+    <TextView
+        android:id="@+id/tv_status"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="8dp"
+        android:text="No data"
+        android:textColor="@color/colorAccent"
+        android:textSize="26sp"
+        android:visibility="invisible" />
+
     <ProgressBar
         android:id="@+id/pb_progress"
         android:layout_width="42dp"

@@ -23,6 +23,7 @@ public class DetailsFragment extends Fragment implements DetailsContract.View {
 
     private DetailsContract.Presenter mPresenter;
 
+    private TextView mTextViewStatus;
     private ViewGroup mViewGroupDetails;
     private ProgressBar mProgressBar;
     private TextView mTextViewMovieId;
@@ -59,6 +60,7 @@ public class DetailsFragment extends Fragment implements DetailsContract.View {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        mTextViewStatus = (TextView) view.findViewById(R.id.tv_status);
         mViewGroupDetails = (ViewGroup) view.findViewById(R.id.ll_details);
         mProgressBar = (ProgressBar) view.findViewById(R.id.pb_progress);
         mTextViewMovieId = (TextView) view.findViewById(R.id.tv_movie_id);
@@ -86,19 +88,28 @@ public class DetailsFragment extends Fragment implements DetailsContract.View {
 
     @Override
     public void showMovieInfo(Movie movie) {
+        mTextViewStatus.setVisibility(View.GONE);
+        mProgressBar.setVisibility(View.GONE);
+
         mTextViewMovieId.setText(Long.toString(mMovieId));
         mTextViewMovieTitle.setText(movie.getTitle());
         mTextViewMovieOriginalTitle.setText(getString(R.string.details_original_title) + movie.getOriginalTitle());
         mTextViewMovieOverview.setText(movie.getOverview());
         mTextViewMovieDuration.setText(String.valueOf(movie.getDuration()) + getString(R.string.details_duration_min));
-        // TODO: 26/02/2017 format date to current locale
         mTextViewMovieReleaseDate.setText(movie.getReleaseDate());
         mImageViewPoster.setImageUrl(App.getPosterUrl("w500", movie.getPoster()), App.getInstance(getContext()).getImageLoader());
         mImageViewBackdrop.setImageUrl(App.getPosterUrl("original", movie.getBackdrop()), App.getInstance(getContext()).getImageLoader());
-        mRatingBar.setRating(movie.getRating() / 2f);
-
-        mProgressBar.setVisibility(View.GONE);
+        mRatingBar.setRating(movie.getRating() / 2f); // I use 5 star rating. API returns 10 star rating.
         mViewGroupDetails.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void showErrorLoadingMovie(String message) {
+        mProgressBar.setVisibility(View.GONE);
+        mViewGroupDetails.setVisibility(View.GONE);
+
+        mTextViewStatus.setVisibility(View.VISIBLE);
+        mTextViewStatus.setText(message);
     }
 
     @Override

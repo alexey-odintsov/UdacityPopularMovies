@@ -1,5 +1,10 @@
 package com.alekso.udacitypopularmovies.ui.details;
 
+import android.content.Context;
+import android.support.v4.app.Fragment;
+
+import com.alekso.udacitypopularmovies.App;
+import com.alekso.udacitypopularmovies.R;
 import com.alekso.udacitypopularmovies.domain.source.DataSource;
 import com.alekso.udacitypopularmovies.domain.source.Repository;
 import com.alekso.udacitypopularmovies.domain.model.Movie;
@@ -32,17 +37,22 @@ public class DetailsPresenter implements DetailsContract.Presenter {
     }
 
     private void loadMovie() {
-        mView.showLoadingIndicator();
-        mRepository.getMovieDetails(mMovieId, new DataSource.LoadMovieDetailsListener() {
-            @Override
-            public void onSuccess(Movie movie) {
-                mView.showMovieInfo(movie);
-            }
+        Context context = ((Fragment) mView).getContext();
+        if (!App.isNetworkAvailable(context)) {
+            mView.showErrorLoadingMovie(context.getString(R.string.no_internet_connection));
+        } else {
+            mView.showLoadingIndicator();
+            mRepository.getMovieDetails(mMovieId, new DataSource.LoadMovieDetailsListener() {
+                @Override
+                public void onSuccess(Movie movie) {
+                    mView.showMovieInfo(movie);
+                }
 
-            @Override
-            public void onError(String message) {
-
-            }
-        });
+                @Override
+                public void onError(String message) {
+                    mView.showErrorLoadingMovie(message);
+                }
+            });
+        }
     }
 }

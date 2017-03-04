@@ -20,5 +20,12 @@ public interface DetailsContract {
         void showLoadingIndicator();
 
         void showMovieInfo(Movie movie);
+
+        /**
+         * Shows movies loading error message
+         *
+         * @param message
+         */
+        void showErrorLoadingMovie(String message);
     }
 }

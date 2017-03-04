@@ -5,4 +5,5 @@
     <string name="sort_highest_rated">Highest rated</string>
     <string name="details_duration_min">" min"</string>
     <string name="details_original_title">"Original title: "</string>
+    <string name="no_internet_connection">No Internet connection!</string>
 </resources>

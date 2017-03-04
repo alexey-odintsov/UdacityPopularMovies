@@ -2,6 +2,8 @@ package com.alekso.udacitypopularmovies;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.v4.util.LruCache;
 
 import com.android.volley.Request;
@@ -77,6 +79,19 @@ public class App {
     }
 
     /**
+     * Checks for available Internet connection.
+     *
+     * @param context
+     * @return
+     */
+    public static boolean isNetworkAvailable(Context context) {
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = cm.getActiveNetworkInfo();
+
+        return networkInfo != null && networkInfo.isConnectedOrConnecting();
+    }
+
+    /**
      * Returns the request queue
      *
      * @return
@@ -108,5 +123,4 @@ public class App {
     public ImageLoader getImageLoader() {
         return mImageLoader;
     }
-
 }

@@ -83,7 +83,7 @@ public class RemoteDataSource implements DataSource {
                 .appendPath(MOVIE)
                 .appendPath(TOP_RATED_MOVIES)
                 .appendQueryParameter("api_key", BuildConfig.THE_MOVIE_DB_API_TOKEN)
-                .appendQueryParameter("language", Locale.getDefault().getISO3Country())
+                .appendQueryParameter("language", Locale.getDefault().getISO3Language())
                 .build();
         return uri.toString();
     }
@@ -94,7 +94,7 @@ public class RemoteDataSource implements DataSource {
                 .appendPath(MOVIE)
                 .appendPath(Long.toString(movieId))
                 .appendQueryParameter("api_key", BuildConfig.THE_MOVIE_DB_API_TOKEN)
-                .appendQueryParameter("language", Locale.getDefault().getISO3Country())
+                .appendQueryParameter("language", Locale.getDefault().getISO3Language())
                 .build();
         return uri.toString();
     }

@@ -10,16 +10,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:padding="8dp"
-        android:text="@string/n_a"
+        android:padding="@dimen/status_text_padding"
+        tools:text="Status message"
         android:textColor="@color/colorAccent"
-        android:textSize="26sp"
+        android:textSize="@dimen/status_text_size"
         android:visibility="invisible" />
 
     <ProgressBar
         android:id="@+id/pb_progress"
-        android:layout_width="42dp"
-        android:layout_height="42dp"
+        android:layout_width="@dimen/progressbar_size"
+        android:layout_height="@dimen/progressbar_size"
         android:layout_gravity="center" />
 
     <RelativeLayout
@@ -30,14 +30,14 @@
         <com.android.volley.toolbox.NetworkImageView
             android:id="@+id/iv_movie_backdrop"
             android:layout_width="match_parent"
-            android:layout_height="150dp"
+            android:layout_height="@dimen/backdrop_height"
             android:background="@color/colorPrimaryDark"
             android:scaleType="centerCrop" />
 
         <TextView
             android:id="@+id/tv_movie_title"
             android:layout_width="match_parent"
-            android:layout_height="150dp"
+            android:layout_height="@dimen/backdrop_height"
             android:paddingBottom="20dp"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
@@ -47,7 +47,7 @@
             android:shadowDy="0.0"
             android:shadowRadius="10"
             android:textColor="@android:color/white"
-            android:textSize="36sp"
+            android:textSize="@dimen/heading_text_size"
             tools:text="Movie title" />
 
         <ScrollView
@@ -68,21 +68,20 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:textSize="30sp"
                     android:visibility="gone"
                     tools:text="Movie ID" />
 
                 <com.android.volley.toolbox.NetworkImageView
                     android:id="@+id/iv_movie_poster"
-                    android:layout_width="120dp"
-                    android:layout_height="160dp" />
+                    android:layout_width="@dimen/poster_width"
+                    android:layout_height="@dimen/poster_height" />
 
                 <TextView
                     android:id="@+id/tv_movie_original_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_toRightOf="@id/iv_movie_poster"
-                    android:textSize="20sp"
+                    android:textSize="@dimen/title_text_size"
                     tools:text="Original Title" />
 
                 <TextView
@@ -107,7 +106,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/iv_movie_poster"
                     android:padding="5dp"
-                    android:textSize="18sp"
+                    android:textSize="@dimen/overview_text_size"
                     tools:text="Overview goes here.." />
 
                 <RatingBar

@@ -38,7 +38,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesAdap
         Movie movie = mMoviesList.get(position);
         Context context = holder.mImageViewPoster.getContext();
 
-        holder.mImageViewPoster.setImageUrl(App.getPosterUrl("w500", movie.getPoster()), App.getInstance(context).getImageLoader());
+        holder.mImageViewPoster.setImageUrl(App.getPosterUrl("w185", movie.getPoster()), App.getInstance(context).getImageLoader());
         holder.mImageViewPoster.setContentDescription(movie.getTitle());
     }
 

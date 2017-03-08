@@ -1,19 +1,17 @@
 package com.alekso.udacitypopularmovies.ui.details;
 
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
-import android.widget.RatingBar;
-import android.widget.TextView;
 
 import com.alekso.udacitypopularmovies.App;
 import com.alekso.udacitypopularmovies.R;
+import com.alekso.udacitypopularmovies.databinding.FragmentDetailsBinding;
 import com.alekso.udacitypopularmovies.domain.model.Movie;
-import com.android.volley.toolbox.NetworkImageView;
 
 /**
  * Created by alekso on 24/02/2017.
@@ -22,20 +20,7 @@ import com.android.volley.toolbox.NetworkImageView;
 public class DetailsFragment extends Fragment implements DetailsContract.View {
 
     private DetailsContract.Presenter mPresenter;
-
-    private TextView mTextViewStatus;
-    private ViewGroup mViewGroupDetails;
-    private ProgressBar mProgressBar;
-    private TextView mTextViewMovieId;
-    private TextView mTextViewMovieTitle;
-    private TextView mTextViewMovieOriginalTitle;
-    private TextView mTextViewMovieOverview;
-    private TextView mTextViewMovieDuration;
-    private TextView mTextViewMovieReleaseDate;
-    private NetworkImageView mImageViewPoster;
-    private NetworkImageView mImageViewBackdrop;
-    private RatingBar mRatingBar;
-
+    private FragmentDetailsBinding mViewBinding;
     private long mMovieId;
 
     public DetailsFragment() {
@@ -51,27 +36,13 @@ public class DetailsFragment extends Fragment implements DetailsContract.View {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_details, container, false);
-
-        return v;
+        mViewBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_details, container, false);
+        return mViewBinding.getRoot();
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        mTextViewStatus = (TextView) view.findViewById(R.id.tv_status);
-        mViewGroupDetails = (ViewGroup) view.findViewById(R.id.ll_details);
-        mProgressBar = (ProgressBar) view.findViewById(R.id.pb_progress);
-        mTextViewMovieId = (TextView) view.findViewById(R.id.tv_movie_id);
-        mTextViewMovieTitle = (TextView) view.findViewById(R.id.tv_movie_title);
-        mTextViewMovieOriginalTitle = (TextView) view.findViewById(R.id.tv_movie_original_title);
-        mTextViewMovieOverview = (TextView) view.findViewById(R.id.tv_movie_description);
-        mTextViewMovieDuration = (TextView) view.findViewById(R.id.tv_movie_duration);
-        mTextViewMovieReleaseDate = (TextView) view.findViewById(R.id.tv_movie_year);
-        mImageViewPoster = (NetworkImageView) view.findViewById(R.id.iv_movie_poster);
-        mImageViewBackdrop = (NetworkImageView) view.findViewById(R.id.iv_movie_backdrop);
-        mRatingBar = (RatingBar) view.findViewById(R.id.rb_movie_rating);
     }
 
     @Override
@@ -82,34 +53,34 @@ public class DetailsFragment extends Fragment implements DetailsContract.View {
 
     @Override
     public void showLoadingIndicator() {
-        mProgressBar.setVisibility(View.VISIBLE);
-        mViewGroupDetails.setVisibility(View.GONE);
+        mViewBinding.progressBar.setVisibility(View.VISIBLE);
+        mViewBinding.layoutDetails.setVisibility(View.GONE);
     }
 
     @Override
     public void showMovieInfo(Movie movie) {
-        mTextViewStatus.setVisibility(View.GONE);
-        mProgressBar.setVisibility(View.GONE);
+        mViewBinding.textViewStatus.setVisibility(View.GONE);
+        mViewBinding.progressBar.setVisibility(View.GONE);
 
-        mTextViewMovieId.setText(Long.toString(mMovieId));
-        mTextViewMovieTitle.setText(movie.getTitle());
-        mTextViewMovieOriginalTitle.setText(getString(R.string.details_original_title, movie.getOriginalTitle()));
-        mTextViewMovieOverview.setText(movie.getOverview());
-        mTextViewMovieDuration.setText(getString(R.string.details_duration_min, movie.getDuration()));
-        mTextViewMovieReleaseDate.setText(movie.getReleaseDate());
-        mImageViewPoster.setImageUrl(App.getPosterUrl("w500", movie.getPoster()), App.getInstance(getContext()).getImageLoader());
-        mImageViewBackdrop.setImageUrl(App.getPosterUrl("original", movie.getBackdrop()), App.getInstance(getContext()).getImageLoader());
-        mRatingBar.setRating(movie.getRating() / 2f); // I use 5 star rating. API returns 10 star rating.
-        mViewGroupDetails.setVisibility(View.VISIBLE);
+        mViewBinding.textViewId.setText(Long.toString(mMovieId));
+        mViewBinding.textViewTitle.setText(movie.getTitle());
+        mViewBinding.textViewOriginalTitle.setText(getString(R.string.details_original_title, movie.getOriginalTitle()));
+        mViewBinding.textViewDescription.setText(movie.getOverview());
+        mViewBinding.textViewDuration.setText(getString(R.string.details_duration_min, movie.getDuration()));
+        mViewBinding.textViewYear.setText(movie.getReleaseDate());
+        mViewBinding.networkImageViewPoster.setImageUrl(App.getPosterUrl("w500", movie.getPoster()), App.getInstance(getContext()).getImageLoader());
+        mViewBinding.networkImageViewBackdrop.setImageUrl(App.getPosterUrl("original", movie.getBackdrop()), App.getInstance(getContext()).getImageLoader());
+        mViewBinding.ratingBar.setRating(movie.getRating() / 2f); // I use 5 star rating. API returns 10 star rating.
+        mViewBinding.layoutDetails.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void showErrorLoadingMovie(String message) {
-        mProgressBar.setVisibility(View.GONE);
-        mViewGroupDetails.setVisibility(View.GONE);
+        mViewBinding.progressBar.setVisibility(View.GONE);
+        mViewBinding.layoutDetails.setVisibility(View.GONE);
 
-        mTextViewStatus.setVisibility(View.VISIBLE);
-        mTextViewStatus.setText(message);
+        mViewBinding.textViewStatus.setVisibility(View.VISIBLE);
+        mViewBinding.textViewStatus.setText(message);
     }
 
     @Override

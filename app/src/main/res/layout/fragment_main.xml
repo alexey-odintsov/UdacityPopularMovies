@@ -1,30 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <TextView
-        android:id="@+id/tv_status"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:padding="@dimen/status_text_padding"
-        android:textColor="@color/colorAccent"
-        android:textSize="@dimen/status_text_size"
-        android:visibility="invisible"
-        tools:text="Status message" />
+        android:layout_height="match_parent">
 
-    <ProgressBar
-        android:id="@+id/pb_progress"
-        android:layout_width="@dimen/progressbar_size"
-        android:layout_height="@dimen/progressbar_size"
-        android:layout_centerHorizontal="true" />
+        <TextView
+            android:id="@+id/text_view_status"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="@dimen/status_text_padding"
+            android:textColor="@color/colorAccent"
+            android:textSize="@dimen/status_text_size"
+            android:visibility="invisible"
+            tools:text="Status message" />
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_movies"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_centerHorizontal="true" />
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            android:layout_width="@dimen/progressbar_size"
+            android:layout_height="@dimen/progressbar_size"
+            android:layout_centerHorizontal="true" />
 
-</RelativeLayout>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_view_movies"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true" />
+
+    </RelativeLayout>
+</layout>

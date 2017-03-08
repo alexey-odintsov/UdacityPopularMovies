@@ -5,7 +5,7 @@
     android:orientation="vertical">
 
     <com.android.volley.toolbox.NetworkImageView
-        android:id="@+id/iv_movie_poster"
+        android:id="@+id/network_image_view_poster"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:adjustViewBounds="true"

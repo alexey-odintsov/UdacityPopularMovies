@@ -6,10 +6,15 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.v4.util.LruCache;
 
+import com.alekso.udacitypopularmovies.domain.model.Movie;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.Volley;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by alekso on 20/02/2017.
@@ -31,6 +36,7 @@ public class App {
      * Base Url for images loading
      */
     private static final String IMAGE_BASE_URL = "https://image.tmdb.org/t/p/";
+
     /**
      * Instance of the class
      */

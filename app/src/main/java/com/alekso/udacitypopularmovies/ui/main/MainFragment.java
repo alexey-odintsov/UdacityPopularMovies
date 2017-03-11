@@ -23,6 +23,7 @@ import com.alekso.udacitypopularmovies.ui.details.DetailsActivity;
 
 import java.util.List;
 
+import static android.view.View.GONE;
 import static com.alekso.udacitypopularmovies.domain.source.DataSource.SORT_POPULARITY;
 import static com.alekso.udacitypopularmovies.domain.source.DataSource.SORT_TOP_RATED;
 
@@ -116,24 +117,30 @@ public class MainFragment extends Fragment implements MainContract.View {
     }
 
     @Override
-    public void showLoadingIndicator() {
+    public void showMovies(List<Movie> movies) {
+        mAdapter.setMoviesData(movies);
+        mViewBinding.progressBar.setVisibility(GONE);
+    }
+
+    @Override
+    public void showStatusText(String message) {
+        mViewBinding.textViewStatus.setVisibility(View.VISIBLE);
+        mViewBinding.textViewStatus.setText(message);
+    }
+
+    @Override
+    public void hideStatusText() {
+        mViewBinding.textViewStatus.setVisibility(GONE);
+    }
+
+    @Override
+    public void showProgressBar() {
         mViewBinding.progressBar.setVisibility(View.VISIBLE);
     }
 
     @Override
-    public void showMovies(List<Movie> movies) {
-        mAdapter.setMoviesData(movies);
-        mViewBinding.progressBar.setVisibility(View.GONE);
-        mViewBinding.textViewStatus.setVisibility(View.GONE);
-        mViewBinding.recyclerViewMovies.setVisibility(View.VISIBLE);
-    }
-
-    @Override
-    public void showErrorLoadingMovies(String message) {
-        mViewBinding.progressBar.setVisibility(View.GONE);
-        mViewBinding.textViewStatus.setVisibility(View.VISIBLE);
-        mViewBinding.textViewStatus.setText(message);
-        mViewBinding.recyclerViewMovies.setVisibility(View.GONE);
+    public void hideProgressBar() {
+        mViewBinding.progressBar.setVisibility(GONE);
     }
 
     @Override

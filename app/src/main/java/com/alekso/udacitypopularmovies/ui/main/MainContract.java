@@ -43,7 +43,12 @@ public interface MainContract {
         /**
          * Shows progress bar
          */
-        void showLoadingIndicator();
+        void showProgressBar();
+
+        /**
+         * Hides progress bar
+         */
+        void hideProgressBar();
 
         /**
          * Shows list of movies
@@ -53,11 +58,16 @@ public interface MainContract {
         void showMovies(List<Movie> movies);
 
         /**
-         * Shows movies loading error message
+         * Shows status text message
          *
          * @param message
          */
-        void showErrorLoadingMovies(String message);
+        void showStatusText(String message);
+
+        /**
+         * Hides status text
+         */
+        void hideStatusText();
 
         /**
          * Starts Movie details activity

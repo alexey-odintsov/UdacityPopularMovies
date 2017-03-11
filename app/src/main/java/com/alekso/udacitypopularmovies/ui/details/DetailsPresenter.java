@@ -37,22 +37,29 @@ public class DetailsPresenter implements DetailsContract.Presenter {
     }
 
     private void loadMovie() {
+        mView.showProgressBar();
+
         Context context = ((Fragment) mView).getContext();
         if (!App.isNetworkAvailable(context)) {
-            mView.showErrorLoadingMovie(context.getString(R.string.no_internet_connection));
+            mView.hideProgressBar();
+            mView.showStatusText(context.getString(R.string.no_internet_connection));
         } else {
-            mView.showLoadingIndicator();
-            mRepository.getMovieDetails(mMovieId, new DataSource.LoadMovieDetailsListener() {
-                @Override
-                public void onSuccess(Movie movie) {
-                    mView.showMovieInfo(movie);
-                }
-
-                @Override
-                public void onError(String message) {
-                    mView.showErrorLoadingMovie(message);
-                }
-            });
+            mView.hideStatusText();
         }
+
+        mRepository.getMovieDetails(mMovieId, new DataSource.LoadMovieDetailsListener() {
+            @Override
+            public void onSuccess(Movie movie) {
+                mView.hideProgressBar();
+                mView.showMovieInfo(movie);
+            }
+
+            @Override
+            public void onError(String message) {
+                mView.hideProgressBar();
+                mView.showStatusText(message);
+            }
+        });
+
     }
 }

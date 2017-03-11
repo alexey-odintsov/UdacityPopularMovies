@@ -52,16 +52,17 @@ public class DetailsFragment extends Fragment implements DetailsContract.View {
     }
 
     @Override
-    public void showLoadingIndicator() {
+    public void showProgressBar() {
         mViewBinding.progressBar.setVisibility(View.VISIBLE);
-        mViewBinding.layoutDetails.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void hideProgressBar() {
+        mViewBinding.progressBar.setVisibility(View.GONE);
     }
 
     @Override
     public void showMovieInfo(Movie movie) {
-        mViewBinding.textViewStatus.setVisibility(View.GONE);
-        mViewBinding.progressBar.setVisibility(View.GONE);
-
         mViewBinding.textViewId.setText(Long.toString(mMovieId));
         mViewBinding.textViewTitle.setText(movie.getTitle());
         mViewBinding.textViewOriginalTitle.setText(getString(R.string.details_original_title, movie.getOriginalTitle()));
@@ -75,12 +76,14 @@ public class DetailsFragment extends Fragment implements DetailsContract.View {
     }
 
     @Override
-    public void showErrorLoadingMovie(String message) {
-        mViewBinding.progressBar.setVisibility(View.GONE);
-        mViewBinding.layoutDetails.setVisibility(View.GONE);
-
+    public void showStatusText(String message) {
         mViewBinding.textViewStatus.setVisibility(View.VISIBLE);
         mViewBinding.textViewStatus.setText(message);
+    }
+
+    @Override
+    public void hideStatusText() {
+        mViewBinding.textViewStatus.setVisibility(View.GONE);
     }
 
     @Override

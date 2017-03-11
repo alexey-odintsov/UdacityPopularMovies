@@ -38,22 +38,29 @@ public class MainPresenter implements MainContract.Presenter {
 
     @Override
     public void loadMovies() {
+        Log.d(TAG, "loadMovies");
+        mView.showProgressBar();
         Context context = ((Fragment) mView).getContext();
         if (!App.isNetworkAvailable(context)) {
-            mView.showErrorLoadingMovies(context.getString(R.string.no_internet_connection));
+            mView.hideProgressBar();
+            mView.showStatusText(context.getString(R.string.no_internet_connection));
         } else {
-            mRepository.getMovies(mSort, new DataSource.LoadMoviesListener() {
-                @Override
-                public void onSuccess(List<Movie> movies) {
-                    mView.showMovies(movies);
-                }
-
-                @Override
-                public void onError(String message) {
-                    mView.showErrorLoadingMovies(message);
-                }
-            });
+            mView.hideStatusText();
         }
+
+        mRepository.getMovies(mSort, new DataSource.LoadMoviesListener() {
+            @Override
+            public void onSuccess(List<Movie> movies) {
+                mView.hideProgressBar();
+                mView.showMovies(movies);
+            }
+
+            @Override
+            public void onError(String message) {
+                mView.hideProgressBar();
+                mView.showStatusText(message);
+            }
+        });
     }
 
     @Override

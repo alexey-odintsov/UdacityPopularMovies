@@ -7,27 +7,30 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/text_view_status"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:padding="@dimen/status_text_padding"
-            android:textColor="@color/colorAccent"
-            android:textSize="@dimen/status_text_size"
-            android:visibility="invisible"
-            tools:text="Status message" />
-
         <ProgressBar
             android:id="@+id/progress_bar"
             android:layout_width="@dimen/progressbar_size"
             android:layout_height="@dimen/progressbar_size"
             android:layout_gravity="center" />
 
+        <TextView
+            android:id="@+id/text_view_status"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/statusBackground"
+            android:gravity="center"
+            android:padding="@dimen/status_text_padding"
+            android:textColor="@color/colorAccent"
+            android:textSize="@dimen/status_text_size"
+            android:visibility="invisible"
+            tools:text="Status message"
+            tools:visibility="visible" />
+
         <RelativeLayout
             android:id="@+id/layout_details"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:visibility="visible">
 
             <com.android.volley.toolbox.NetworkImageView
                 android:id="@+id/network_image_view_backdrop"

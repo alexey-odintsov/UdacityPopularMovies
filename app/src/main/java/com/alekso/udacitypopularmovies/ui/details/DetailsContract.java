@@ -17,7 +17,13 @@ public interface DetailsContract {
         /**
          * Shows progress bar
          */
-        void showLoadingIndicator();
+        void showProgressBar();
+
+        /**
+         * Hides progress bar
+         */
+        void hideProgressBar();
+
 
         void showMovieInfo(Movie movie);
 
@@ -26,6 +32,11 @@ public interface DetailsContract {
          *
          * @param message
          */
-        void showErrorLoadingMovie(String message);
+        void showStatusText(String message);
+
+        /**
+         * Hides status text
+         */
+        void hideStatusText();
     }
 }

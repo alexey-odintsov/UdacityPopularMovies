@@ -146,7 +146,7 @@ public class RemoteDataSource implements DataSource {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        listener.onError("Loading for movie " + movieId);
+                        listener.onError(error.getMessage());
                     }
                 });
 

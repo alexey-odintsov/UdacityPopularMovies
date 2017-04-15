@@ -23,7 +23,6 @@ import com.alekso.udacitypopularmovies.ui.details.DetailsActivity;
 
 import java.util.List;
 
-import static android.view.View.GONE;
 import static com.alekso.udacitypopularmovies.domain.source.DataSource.SORT_POPULARITY;
 import static com.alekso.udacitypopularmovies.domain.source.DataSource.SORT_TOP_RATED;
 
@@ -119,7 +118,7 @@ public class MainFragment extends Fragment implements MainContract.View {
     @Override
     public void showMovies(List<Movie> movies) {
         mAdapter.setMoviesData(movies);
-        mViewBinding.progressBar.setVisibility(GONE);
+        mViewBinding.progressBar.setVisibility(View.GONE);
     }
 
     @Override
@@ -130,7 +129,7 @@ public class MainFragment extends Fragment implements MainContract.View {
 
     @Override
     public void hideStatusText() {
-        mViewBinding.textViewStatus.setVisibility(GONE);
+        mViewBinding.textViewStatus.setVisibility(View.GONE);
     }
 
     @Override
@@ -140,7 +139,7 @@ public class MainFragment extends Fragment implements MainContract.View {
 
     @Override
     public void hideProgressBar() {
-        mViewBinding.progressBar.setVisibility(GONE);
+        mViewBinding.progressBar.setVisibility(View.GONE);
     }
 
     @Override

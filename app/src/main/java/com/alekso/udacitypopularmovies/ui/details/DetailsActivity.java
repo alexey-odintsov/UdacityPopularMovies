@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import com.alekso.udacitypopularmovies.App;
 import com.alekso.udacitypopularmovies.R;
 import com.alekso.udacitypopularmovies.domain.source.Repository;
+import com.alekso.udacitypopularmovies.domain.source.local.LocalDataSource;
 import com.alekso.udacitypopularmovies.domain.source.remote.RemoteDataSource;
 
 public class DetailsActivity extends AppCompatActivity {
@@ -35,6 +36,9 @@ public class DetailsActivity extends AppCompatActivity {
         }
 
         mPresenter = new DetailsPresenter(movieId,
-                Repository.getInstance(RemoteDataSource.getInstance(getApplicationContext())), fragment);
+                Repository.getInstance(
+                        LocalDataSource.getInstance(getApplicationContext()),
+                        RemoteDataSource.getInstance(getApplicationContext())
+                ), fragment);
     }
 }

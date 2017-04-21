@@ -25,16 +25,21 @@ public class Repository implements DataSource {
      */
     private static Repository sInstance;
     /**
-     * Remote data source instance
+     * Remote data source - server
      */
     private final DataSource mRemoteDataSource;
+    /**
+     * Local data source - database
+     */
+    private final DataSource mLocalDataSource;
 
     /**
      * Constructor.
      *
      * @param remoteDataSource
      */
-    private Repository(DataSource remoteDataSource) {
+    private Repository(DataSource localDataSource, DataSource remoteDataSource) {
+        mLocalDataSource = localDataSource;
         mRemoteDataSource = remoteDataSource;
     }
 
@@ -44,9 +49,9 @@ public class Repository implements DataSource {
      * @param remoteDataSource
      * @return
      */
-    public static Repository getInstance(DataSource remoteDataSource) {
+    public static Repository getInstance(DataSource localDataSource, DataSource remoteDataSource) {
         if (sInstance == null) {
-            sInstance = new Repository(remoteDataSource);
+            sInstance = new Repository(localDataSource, remoteDataSource);
         }
 
         return sInstance;

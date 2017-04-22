@@ -12,7 +12,7 @@ import static com.alekso.udacitypopularmovies.domain.source.local.MovieContract.
 
 public class DbHelper extends SQLiteOpenHelper {
     public static final String DB_NAME = "popular_movies.db";
-    public static final int DB_VERSION = 2;
+    public static final int DB_VERSION = 3;
 
     public static final String SQL_CREATE_FAVORITES = "CREATE TABLE " + MovieEntry.TABLE + " ("
             + MovieEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
@@ -33,11 +33,30 @@ public class DbHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL(SQL_CREATE_FAVORITES);
+        createTables(db);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        dropTables(db);
+        createTables(db);
+    }
 
+    /**
+     * Deletes tables
+     *
+     * @param db
+     */
+    private void dropTables(SQLiteDatabase db) {
+        db.execSQL("DROP TABLE IF EXISTS " + MovieEntry.TABLE);
+    }
+
+    /**
+     * Creates initial db structure
+     *
+     * @param db
+     */
+    private void createTables(SQLiteDatabase db) {
+        db.execSQL(SQL_CREATE_FAVORITES);
     }
 }

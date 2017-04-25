@@ -5,8 +5,8 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.alekso.udacitypopularmovies.R;
 import com.alekso.udacitypopularmovies.domain.source.Repository;
-import com.alekso.udacitypopularmovies.domain.source.local.LocalDataSource;
-import com.alekso.udacitypopularmovies.domain.source.remote.RemoteDataSource;
+import com.alekso.udacitypopularmovies.domain.source.local.LocalDataSourceImpl;
+import com.alekso.udacitypopularmovies.domain.source.remote.RemoteDataSourceImpl;
 
 /**
  * Main app activity. Will list popular movies picture in a recyclerView.
@@ -31,8 +31,8 @@ public class MainActivity extends AppCompatActivity {
 
         mPresenter = new MainPresenter(
                 Repository.getInstance(
-                        LocalDataSource.getInstance(getApplicationContext()),
-                        RemoteDataSource.getInstance(getApplicationContext())
+                        LocalDataSourceImpl.getInstance(getContentResolver()),
+                        RemoteDataSourceImpl.getInstance(getApplicationContext())
                 ), fragment);
     }
 

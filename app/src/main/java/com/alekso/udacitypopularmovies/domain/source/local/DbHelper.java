@@ -12,19 +12,12 @@ import static com.alekso.udacitypopularmovies.domain.source.local.MovieContract.
 
 public class DbHelper extends SQLiteOpenHelper {
     public static final String DB_NAME = "popular_movies.db";
-    public static final int DB_VERSION = 3;
+    public static final int DB_VERSION = 4;
 
-    public static final String SQL_CREATE_FAVORITES = "CREATE TABLE " + MovieEntry.TABLE + " ("
-            + MovieEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-            + MovieEntry.C_MOVIE_ID + " INTEGER NOT NULL,"
-            + MovieEntry.C_TITLE + " TEXT NOT NULL,"
-            + MovieEntry.C_ORIGINAL_TITLE + " TEXT,"
-            + MovieEntry.C_OVERVIEW + " TEXT,"
-            + MovieEntry.C_BACKDROP + " TEXT,"
-            + MovieEntry.C_DURATION + " NUMBER,"
-            + MovieEntry.C_RELEASE_DATE + " NUMBER,"
-            + MovieEntry.C_RATING + " NUMBER,"
-            + MovieEntry.C_POSTER + " TEXT"
+    public static final String SQL_CREATE_FAVORITES = "CREATE TABLE " + FavoriteMovieEntry.TABLE + " ("
+            + FavoriteMovieEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+            + FavoriteMovieEntry.C_MOVIE_ID + " INTEGER NOT NULL,"
+            + FavoriteMovieEntry.C_TITLE + " TEXT NOT NULL"
             + ")";
 
     public DbHelper(Context context) {
@@ -48,7 +41,7 @@ public class DbHelper extends SQLiteOpenHelper {
      * @param db
      */
     private void dropTables(SQLiteDatabase db) {
-        db.execSQL("DROP TABLE IF EXISTS " + MovieEntry.TABLE);
+        db.execSQL("DROP TABLE IF EXISTS " + FavoriteMovieEntry.TABLE);
     }
 
     /**

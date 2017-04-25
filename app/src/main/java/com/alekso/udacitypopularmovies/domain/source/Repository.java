@@ -10,7 +10,7 @@ import java.util.Map;
  * Created by alekso on 26/02/2017.
  */
 
-public class Repository implements DataSource {
+public class Repository implements LocalDataSource, RemoteDataSource {
 
     /**
      * Simple in-memory cache for movies list
@@ -27,18 +27,19 @@ public class Repository implements DataSource {
     /**
      * Remote data source - server
      */
-    private final DataSource mRemoteDataSource;
+    private final RemoteDataSource mRemoteDataSource;
     /**
      * Local data source - database
      */
-    private final DataSource mLocalDataSource;
+    private final LocalDataSource mLocalDataSource;
 
     /**
      * Constructor.
      *
+     * @param localDataSource
      * @param remoteDataSource
      */
-    private Repository(DataSource localDataSource, DataSource remoteDataSource) {
+    private Repository(LocalDataSource localDataSource, RemoteDataSource remoteDataSource) {
         mLocalDataSource = localDataSource;
         mRemoteDataSource = remoteDataSource;
     }
@@ -49,7 +50,7 @@ public class Repository implements DataSource {
      * @param remoteDataSource
      * @return
      */
-    public static Repository getInstance(DataSource localDataSource, DataSource remoteDataSource) {
+    public static Repository getInstance(LocalDataSource localDataSource, RemoteDataSource remoteDataSource) {
         if (sInstance == null) {
             sInstance = new Repository(localDataSource, remoteDataSource);
         }
@@ -58,12 +59,12 @@ public class Repository implements DataSource {
     }
 
     @Override
-    public void getMovies(final int sort, final LoadMoviesListener listener) {
+    public void getMovies(final int sort, final DataSource.LoadItemsListCallback<Movie> listener) {
         List<Movie> cachedList = sMoviesListCache.get(sort);
         if (cachedList != null) {
             listener.onSuccess(sMoviesListCache.get(sort));
         } else {
-            mRemoteDataSource.getMovies(sort, new LoadMoviesListener() {
+            mRemoteDataSource.getMovies(sort, new DataSource.LoadItemsListCallback<Movie>() {
                 @Override
                 public void onSuccess(List<Movie> movies) {
                     sMoviesListCache.put(sort, movies);
@@ -79,12 +80,12 @@ public class Repository implements DataSource {
     }
 
     @Override
-    public void getMovieDetails(final long movieId, final LoadMovieDetailsListener listener) {
+    public void getMovieDetails(final long movieId, final DataSource.LoadItemCallback<Movie> listener) {
         Movie cachedMovie = sMoviesDetailsCache.get(movieId);
         if (cachedMovie != null) {
             listener.onSuccess(cachedMovie);
         } else {
-            mRemoteDataSource.getMovieDetails(movieId, new LoadMovieDetailsListener() {
+            mRemoteDataSource.getMovieDetails(movieId, new DataSource.LoadItemCallback<Movie>() {
                 @Override
                 public void onSuccess(Movie movie) {
                     sMoviesDetailsCache.put(movieId, movie);

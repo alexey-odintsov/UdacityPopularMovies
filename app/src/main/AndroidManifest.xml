@@ -23,6 +23,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.main.MainActivity" />
         </activity>
+
+        <provider
+            android:name=".domain.source.MoviesProvider"
+            android:authorities="com.alekso.udacitypopularmovies" />
     </application>
 
 </manifest>

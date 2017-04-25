@@ -47,7 +47,7 @@ public class DetailsPresenter implements DetailsContract.Presenter {
             mView.hideStatusText();
         }
 
-        mRepository.getMovieDetails(mMovieId, new DataSource.LoadMovieDetailsListener() {
+        mRepository.getMovieDetails(mMovieId, new DataSource.LoadItemCallback<Movie>() {
             @Override
             public void onSuccess(Movie movie) {
                 mView.hideProgressBar();

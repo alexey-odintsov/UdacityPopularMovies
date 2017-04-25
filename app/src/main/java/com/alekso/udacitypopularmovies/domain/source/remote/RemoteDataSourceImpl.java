@@ -9,6 +9,7 @@ import com.alekso.udacitypopularmovies.BuildConfig;
 import com.alekso.udacitypopularmovies.domain.source.DataSource;
 import com.alekso.udacitypopularmovies.domain.model.Movie;
 import com.alekso.udacitypopularmovies.domain.model.MoviesReader;
+import com.alekso.udacitypopularmovies.domain.source.RemoteDataSource;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -19,13 +20,15 @@ import org.json.JSONObject;
 import java.util.List;
 import java.util.Locale;
 
+import static com.alekso.udacitypopularmovies.domain.source.DataSource.*;
+
 /**
  * Created by alekso on 26/02/2017.
  */
 
-public class RemoteDataSource implements DataSource {
+public class RemoteDataSourceImpl implements RemoteDataSource {
 
-    private static final String TAG = RemoteDataSource.class.getSimpleName();
+    private static final String TAG = RemoteDataSourceImpl.class.getSimpleName();
 
     private static final String PROTOCOL = "http://";
     private static final String HOST = "api.themoviedb.org";
@@ -33,14 +36,15 @@ public class RemoteDataSource implements DataSource {
     private static final String POPULAR_MOVIES = "popular";
     private static final String TOP_RATED_MOVIES = "top_rated";
     private static final String MOVIE = "movie";
-    private static RemoteDataSource sInstance;
+
+    private static RemoteDataSourceImpl sInstance;
     private Context mContext;
 
 
     /**
      * @param context
      */
-    private RemoteDataSource(Context context) {
+    private RemoteDataSourceImpl(Context context) {
         mContext = context;
     }
 
@@ -48,9 +52,9 @@ public class RemoteDataSource implements DataSource {
      * @param context
      * @return
      */
-    public static RemoteDataSource getInstance(Context context) {
+    public static RemoteDataSourceImpl getInstance(Context context) {
         if (sInstance == null) {
-            sInstance = new RemoteDataSource(context);
+            sInstance = new RemoteDataSourceImpl(context);
         }
 
         return sInstance;
@@ -100,7 +104,7 @@ public class RemoteDataSource implements DataSource {
     }
 
     @Override
-    public void getMovies(int sort, final LoadMoviesListener listener) {
+    public void getMovies(int sort, final DataSource.LoadItemsListCallback<Movie> listener) {
         String url;
 
         switch (sort) {
@@ -132,7 +136,7 @@ public class RemoteDataSource implements DataSource {
     }
 
     @Override
-    public void getMovieDetails(final long movieId, final LoadMovieDetailsListener listener) {
+    public void getMovieDetails(final long movieId, final LoadItemCallback<Movie> listener) {
         JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.GET,
                 getMovieDetailsUrl(movieId), null,
                 new Response.Listener<JSONObject>() {

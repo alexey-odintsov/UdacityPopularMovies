@@ -11,23 +11,28 @@ import java.util.List;
 public interface DataSource {
     public static final int SORT_POPULARITY = 0;
     public static final int SORT_TOP_RATED = 1;
+    public static final int SORT_FAVORITES = 2;
+
 
 
     /**
-     * Loads list of movies
+     * Callback for retrieving list of items
+     *
+     * @param <T>
      */
-    void getMovies(int sort, LoadMoviesListener listener);
-
-    void getMovieDetails(long movieId, LoadMovieDetailsListener listener);
-
-    interface LoadMoviesListener {
-        void onSuccess(List<Movie> movies);
+    interface LoadItemsListCallback<T> {
+        void onSuccess(List<T> items);
 
         void onError(String message);
     }
 
-    interface LoadMovieDetailsListener {
-        void onSuccess(Movie movie);
+    /**
+     * Callback for retrieving an item
+     *
+     * @param <T>
+     */
+    interface LoadItemCallback<T> {
+        void onSuccess(T result);
 
         void onError(String message);
     }

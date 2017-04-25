@@ -1,7 +1,11 @@
 package com.alekso.udacitypopularmovies.ui.main;
 
 import android.content.Context;
+import android.database.Cursor;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.Loader;
 import android.util.Log;
 
 import com.alekso.udacitypopularmovies.App;
@@ -18,12 +22,15 @@ import static com.alekso.udacitypopularmovies.domain.source.DataSource.SORT_POPU
  * Created by alekso on 26/02/2017.
  */
 
-public class MainPresenter implements MainContract.Presenter {
+public class MainPresenter implements MainContract.Presenter,
+        LoaderManager.LoaderCallbacks<Cursor>{
 
     private static final String TAG = MainPresenter.class.getSimpleName();
     private final Repository mRepository;
     private final MainContract.View mView;
     private int mSort = SORT_POPULARITY;
+
+    private LoaderManager mLoaderManager;
 
     /**
      * @param repository
@@ -48,7 +55,7 @@ public class MainPresenter implements MainContract.Presenter {
             mView.hideStatusText();
         }
 
-        mRepository.getMovies(mSort, new DataSource.LoadMoviesListener() {
+        mRepository.getMovies(mSort, new DataSource.LoadItemsListCallback<Movie>() {
             @Override
             public void onSuccess(List<Movie> movies) {
                 mView.hideProgressBar();
@@ -80,5 +87,22 @@ public class MainPresenter implements MainContract.Presenter {
     @Override
     public void setSort(int sort) {
         mSort = sort;
+    }
+
+
+
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        return null;
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+
     }
 }

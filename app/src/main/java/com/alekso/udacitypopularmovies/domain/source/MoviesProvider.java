@@ -29,8 +29,8 @@ public class MoviesProvider extends ContentProvider {
         final UriMatcher matcher = new UriMatcher(UriMatcher.NO_MATCH);
         final String authority = MovieContract.CONTENT_AUTHORITY;
 
-        matcher.addURI(authority, MovieContract.MovieEntry.TABLE, MOVIES);
-        matcher.addURI(authority, MovieContract.MovieEntry.TABLE + "/*", MOVIES_ITEM);
+        matcher.addURI(authority, MovieContract.FavoriteMovieEntry.TABLE, MOVIES);
+        matcher.addURI(authority, MovieContract.FavoriteMovieEntry.TABLE + "/*", MOVIES_ITEM);
 
         return matcher;
     }
@@ -49,7 +49,7 @@ public class MoviesProvider extends ContentProvider {
         switch (sUriMatcher.match(uri)) {
             case MOVIES:
                 c = mDbHelper.getReadableDatabase().query(
-                        MovieContract.MovieEntry.TABLE,
+                        MovieContract.FavoriteMovieEntry.TABLE,
                         projection,
                         selection,
                         selectionArgs,
@@ -62,9 +62,9 @@ public class MoviesProvider extends ContentProvider {
             case MOVIES_ITEM:
                 String[] where = {uri.getLastPathSegment()};
                 c = mDbHelper.getReadableDatabase().query(
-                        MovieContract.MovieEntry.TABLE,
+                        MovieContract.FavoriteMovieEntry.TABLE,
                         projection,
-                        MovieContract.MovieEntry.C_MOVIE_ID + " = ? ",
+                        MovieContract.FavoriteMovieEntry.C_MOVIE_ID + " = ? ",
                         where,
                         null,
                         null,
@@ -86,9 +86,9 @@ public class MoviesProvider extends ContentProvider {
 
         switch (match) {
             case MOVIES:
-                return MovieContract.MovieEntry.CONTENT_TYPE;
+                return MovieContract.FavoriteMovieEntry.CONTENT_TYPE;
             case MOVIES_ITEM:
-                return MovieContract.MovieEntry.CONTENT_ITEM_TYPE;
+                return MovieContract.FavoriteMovieEntry.CONTENT_ITEM_TYPE;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
@@ -105,10 +105,10 @@ public class MoviesProvider extends ContentProvider {
             case MOVIES:
                 // check whether movie already stored in database
                 Cursor c = db.query(
-                        MovieContract.MovieEntry.TABLE,
-                        new String[]{MovieContract.MovieEntry.C_MOVIE_ID},
-                        MovieContract.MovieEntry.C_MOVIE_ID + " = ? ",
-                        new String[]{values.getAsString(MovieContract.MovieEntry.C_MOVIE_ID)},
+                        MovieContract.FavoriteMovieEntry.TABLE,
+                        new String[]{MovieContract.FavoriteMovieEntry.C_MOVIE_ID},
+                        MovieContract.FavoriteMovieEntry.C_MOVIE_ID + " = ? ",
+                        new String[]{values.getAsString(MovieContract.FavoriteMovieEntry.C_MOVIE_ID)},
                         null,
                         null,
                         null
@@ -117,25 +117,25 @@ public class MoviesProvider extends ContentProvider {
                 if (c.moveToLast()) { // movie already exists
                     // do nothing or update data
                     long id = db.update(
-                            MovieContract.MovieEntry.TABLE,
+                            MovieContract.FavoriteMovieEntry.TABLE,
                             values,
-                            MovieContract.MovieEntry.C_MOVIE_ID + " = ? ",
-                            new String[]{values.getAsString(MovieContract.MovieEntry.C_MOVIE_ID)}
+                            MovieContract.FavoriteMovieEntry.C_MOVIE_ID + " = ? ",
+                            new String[]{values.getAsString(MovieContract.FavoriteMovieEntry.C_MOVIE_ID)}
                     );
                     if (id > 0) {
-                        returnUri = MovieContract.MovieEntry.buildMovieUri(id);
+                        returnUri = MovieContract.FavoriteMovieEntry.buildMovieUri(id);
                     } else {
                         throw new SQLiteException("Failed to insert row for " + uri);
                     }
 
                 } else { // no such movie, add it
                     long id = db.insert(
-                            MovieContract.MovieEntry.TABLE,
+                            MovieContract.FavoriteMovieEntry.TABLE,
                             null,
                             values
                     );
                     if (id > 0) {
-                        returnUri = MovieContract.MovieEntry.buildMovieUri(id);
+                        returnUri = MovieContract.FavoriteMovieEntry.buildMovieUri(id);
                     } else {
                         throw new SQLiteException("Failed to insert row for " + uri);
                     }
@@ -159,7 +159,7 @@ public class MoviesProvider extends ContentProvider {
 
         switch (match) {
             case MOVIES:
-                rowsDeleted = db.delete(MovieContract.MovieEntry.TABLE, selection, selectionArgs);
+                rowsDeleted = db.delete(MovieContract.FavoriteMovieEntry.TABLE, selection, selectionArgs);
                 break;
 
             default:
@@ -181,7 +181,7 @@ public class MoviesProvider extends ContentProvider {
 
         switch (match) {
             case MOVIES:
-                rowsUpdated = db.update(MovieContract.MovieEntry.TABLE, values, selection, selectionArgs);
+                rowsUpdated = db.update(MovieContract.FavoriteMovieEntry.TABLE, values, selection, selectionArgs);
                 break;
 
             default:

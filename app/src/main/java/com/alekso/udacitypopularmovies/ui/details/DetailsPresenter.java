@@ -78,10 +78,12 @@ public class DetailsPresenter implements DetailsContract.Presenter {
 
     @Override
     public void toggleFavorite() {
-        if (mIsFavorite) {
-            mRepository.removeFavoriteMovie(mMovieId);
-        } else {
-            mRepository.addFavoriteMovie(mMovie);
+        if (mMovie != null) {
+            if (mIsFavorite) {
+                mRepository.removeFavoriteMovie(mMovieId);
+            } else {
+                mRepository.addFavoriteMovie(mMovie);
+            }
         }
     }
 

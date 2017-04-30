@@ -1,5 +1,7 @@
 package com.alekso.udacitypopularmovies.ui.details;
 
+import android.database.Cursor;
+
 import com.alekso.udacitypopularmovies.domain.model.Movie;
 import com.alekso.udacitypopularmovies.ui.BasePresenter;
 import com.alekso.udacitypopularmovies.ui.BaseView;
@@ -10,7 +12,11 @@ import com.alekso.udacitypopularmovies.ui.BaseView;
 
 public interface DetailsContract {
     interface Presenter extends BasePresenter {
+        boolean isFavorite();
 
+        void toggleFavorite();
+
+        void onGetFavoriteMovie(Cursor data);
     }
 
     interface View extends BaseView<Presenter> {
@@ -38,5 +44,7 @@ public interface DetailsContract {
          * Hides status text
          */
         void hideStatusText();
+
+        void checkFavoriteMenu(boolean check);
     }
 }

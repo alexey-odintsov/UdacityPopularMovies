@@ -1,5 +1,7 @@
 package com.alekso.udacitypopularmovies.ui.main;
 
+import android.database.Cursor;
+
 import com.alekso.udacitypopularmovies.domain.model.Movie;
 import com.alekso.udacitypopularmovies.ui.BasePresenter;
 import com.alekso.udacitypopularmovies.ui.BaseView;

@@ -89,8 +89,6 @@ public class MainPresenter implements MainContract.Presenter,
         mSort = sort;
     }
 
-
-
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         return null;

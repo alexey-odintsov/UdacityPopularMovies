@@ -29,6 +29,7 @@ public final class MovieContract {
 
         public static Uri buildMovieUri(long movieId) {
             return ContentUris.withAppendedId(CONTENT_URI, movieId);
+            //return Uri.parse(CONTENT_ITEM_TYPE + "/" + movieId);
         }
     }
 }

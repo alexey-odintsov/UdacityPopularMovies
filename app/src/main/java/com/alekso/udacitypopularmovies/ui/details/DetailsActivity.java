@@ -3,6 +3,7 @@ package com.alekso.udacitypopularmovies.ui.details;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 
 import com.alekso.udacitypopularmovies.App;
 import com.alekso.udacitypopularmovies.R;
@@ -11,6 +12,7 @@ import com.alekso.udacitypopularmovies.domain.source.local.LocalDataSourceImpl;
 import com.alekso.udacitypopularmovies.domain.source.remote.RemoteDataSourceImpl;
 
 public class DetailsActivity extends AppCompatActivity {
+    private static final boolean debug = true;
     private static final String TAG = DetailsActivity.class.getSimpleName();
 
     private DetailsContract.Presenter mPresenter;

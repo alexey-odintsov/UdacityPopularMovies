@@ -9,7 +9,9 @@ import android.database.sqlite.SQLiteException;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
+import com.alekso.udacitypopularmovies.App;
 import com.alekso.udacitypopularmovies.domain.source.local.DbHelper;
 import com.alekso.udacitypopularmovies.domain.source.local.MovieContract;
 
@@ -18,6 +20,9 @@ import com.alekso.udacitypopularmovies.domain.source.local.MovieContract;
  */
 
 public class MoviesProvider extends ContentProvider {
+
+    private static final boolean debug = true;
+    private static final String TAG = App.fullTag(MoviesProvider.class.getSimpleName());
 
     private static final int MOVIES = 100;
     private static final int MOVIES_ITEM = 101;
@@ -29,14 +34,16 @@ public class MoviesProvider extends ContentProvider {
         final UriMatcher matcher = new UriMatcher(UriMatcher.NO_MATCH);
         final String authority = MovieContract.CONTENT_AUTHORITY;
 
-        matcher.addURI(authority, MovieContract.FavoriteMovieEntry.TABLE, MOVIES);
-        matcher.addURI(authority, MovieContract.FavoriteMovieEntry.TABLE + "/*", MOVIES_ITEM);
+        matcher.addURI(authority, MovieContract.PATH_MOVIES, MOVIES);
+        matcher.addURI(authority, MovieContract.PATH_MOVIES + "/*", MOVIES_ITEM);
 
         return matcher;
     }
 
     @Override
     public boolean onCreate() {
+        if (debug) Log.d(TAG, "onCreate()");
+
         mDbHelper = new DbHelper(getContext());
         return true;
     }
@@ -44,6 +51,9 @@ public class MoviesProvider extends ContentProvider {
     @Nullable
     @Override
     public Cursor query(@NonNull Uri uri, @Nullable String[] projection, @Nullable String selection, @Nullable String[] selectionArgs, @Nullable String sortOrder) {
+        if (debug)
+            Log.d(TAG, "query(uri: " + uri + "; selection: " + selection + "; selectionArgs: " + selectionArgs + ")");
+
         Cursor c;
 
         switch (sUriMatcher.match(uri)) {
@@ -70,6 +80,7 @@ public class MoviesProvider extends ContentProvider {
                         null,
                         sortOrder
                 );
+                break;
 
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
@@ -97,6 +108,8 @@ public class MoviesProvider extends ContentProvider {
     @Nullable
     @Override
     public Uri insert(@NonNull Uri uri, @Nullable ContentValues values) {
+        if (debug) Log.d(TAG, "insert(uri: " + uri + "; values: " + values + ")");
+
         final SQLiteDatabase db = mDbHelper.getWritableDatabase();
         final int match = sUriMatcher.match(uri);
         Uri returnUri;

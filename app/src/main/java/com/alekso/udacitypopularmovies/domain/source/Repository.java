@@ -1,5 +1,8 @@
 package com.alekso.udacitypopularmovies.domain.source;
 
+import android.util.Log;
+
+import com.alekso.udacitypopularmovies.App;
 import com.alekso.udacitypopularmovies.domain.model.Movie;
 
 import java.util.HashMap;
@@ -11,6 +14,8 @@ import java.util.Map;
  */
 
 public class Repository implements LocalDataSource, RemoteDataSource {
+    private static final boolean debug = true;
+    private static final String TAG = App.fullTag(Repository.class.getSimpleName());
 
     /**
      * Simple in-memory cache for movies list
@@ -40,6 +45,9 @@ public class Repository implements LocalDataSource, RemoteDataSource {
      * @param remoteDataSource
      */
     private Repository(LocalDataSource localDataSource, RemoteDataSource remoteDataSource) {
+        if (debug)
+            Log.d(TAG, "constructor(localDataSource: " + localDataSource + "; remoteDataSource: " + remoteDataSource + ")");
+
         mLocalDataSource = localDataSource;
         mRemoteDataSource = remoteDataSource;
     }
@@ -60,6 +68,8 @@ public class Repository implements LocalDataSource, RemoteDataSource {
 
     @Override
     public void getMovies(final int sort, final DataSource.LoadItemsListCallback<Movie> listener) {
+        if (debug) Log.d(TAG, "getMovies(sort: " + sort + "; listener: " + listener + ")");
+
         List<Movie> cachedList = sMoviesListCache.get(sort);
         if (cachedList != null) {
             listener.onSuccess(sMoviesListCache.get(sort));
@@ -81,6 +91,9 @@ public class Repository implements LocalDataSource, RemoteDataSource {
 
     @Override
     public void getMovieDetails(final long movieId, final DataSource.LoadItemCallback<Movie> listener) {
+        if (debug)
+            Log.d(TAG, "getMovieDetails(movieId: " + movieId + "; listener: " + listener + ")");
+
         Movie cachedMovie = sMoviesDetailsCache.get(movieId);
         if (cachedMovie != null) {
             listener.onSuccess(cachedMovie);
@@ -98,5 +111,33 @@ public class Repository implements LocalDataSource, RemoteDataSource {
                 }
             });
         }
+    }
+
+    @Override
+    public void getFavoriteMovies(DataSource.LoadItemsListCallback<Movie> callback) {
+        if (debug) Log.d(TAG, "getFavoriteMovies(callback: " + callback + ")");
+
+        mLocalDataSource.getFavoriteMovies(callback);
+    }
+
+    @Override
+    public void addFavoriteMovie(Movie movie) {
+        if (debug) Log.d(TAG, "addFavoriteMovie(movie: " + movie + ")");
+
+        mLocalDataSource.addFavoriteMovie(movie);
+    }
+
+    @Override
+    public void removeFavoriteMovie(long movieId) {
+        if (debug) Log.d(TAG, "removeFavoriteMovie(movieId: " + movieId + ")");
+
+        mLocalDataSource.removeFavoriteMovie(movieId);
+    }
+
+    @Override
+    public void deleteAllFavoriteMovies() {
+        if (debug) Log.d(TAG, "deleteAllFavoriteMovies()");
+
+        mLocalDataSource.deleteAllFavoriteMovies();
     }
 }

@@ -32,11 +32,11 @@ public class App {
     public static final String SHARED_PREFERENCES_NAME = "movies_prefs";
     public static final String SETTINGS_MOVIES_SORT = "movies_sort";
 
+    private static final String TAG = "PopMovies";
     /**
      * Base Url for images loading
      */
     private static final String IMAGE_BASE_URL = "https://image.tmdb.org/t/p/";
-
     /**
      * Instance of the class
      */
@@ -66,6 +66,10 @@ public class App {
                         cache.put(url, bitmap);
                     }
                 });
+    }
+
+    public static String fullTag(String tag) {
+        return TAG + ":" + tag;
     }
 
     /**

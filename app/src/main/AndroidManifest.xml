@@ -26,7 +26,8 @@
 
         <provider
             android:name=".domain.source.MoviesProvider"
-            android:authorities="com.alekso.udacitypopularmovies" />
+            android:authorities="com.alekso.udacitypopularmovies"
+            android:exported="false" />
     </application>
 
 </manifest>

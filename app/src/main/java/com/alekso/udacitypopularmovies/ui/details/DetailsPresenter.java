@@ -1,13 +1,15 @@
 package com.alekso.udacitypopularmovies.ui.details;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 
 import com.alekso.udacitypopularmovies.App;
 import com.alekso.udacitypopularmovies.R;
+import com.alekso.udacitypopularmovies.domain.model.Movie;
 import com.alekso.udacitypopularmovies.domain.source.DataSource;
 import com.alekso.udacitypopularmovies.domain.source.Repository;
-import com.alekso.udacitypopularmovies.domain.model.Movie;
 
 /**
  * Created by alekso on 26/02/2017.
@@ -15,9 +17,14 @@ import com.alekso.udacitypopularmovies.domain.model.Movie;
 
 public class DetailsPresenter implements DetailsContract.Presenter {
 
+    private static final boolean debug = true;
+    private static final String TAG = App.fullTag(DetailsPresenter.class.getSimpleName());
+
     private final Repository mRepository;
     private final DetailsContract.View mView;
     private long mMovieId;
+    private Movie mMovie;
+    private boolean mIsFavorite = false;
 
     /**
      * @param movieId
@@ -25,6 +32,9 @@ public class DetailsPresenter implements DetailsContract.Presenter {
      * @param view
      */
     public DetailsPresenter(long movieId, Repository repository, DetailsContract.View view) {
+        if (debug)
+            Log.d(TAG, "constructor(movieId: " + movieId + "; repository: " + repository + "; view: " + view + ")");
+
         mMovieId = movieId;
         mRepository = repository;
         mView = view;
@@ -33,6 +43,8 @@ public class DetailsPresenter implements DetailsContract.Presenter {
 
     @Override
     public void start() {
+        if (debug) Log.d(TAG, "start()");
+
         loadMovie();
     }
 
@@ -50,6 +62,7 @@ public class DetailsPresenter implements DetailsContract.Presenter {
         mRepository.getMovieDetails(mMovieId, new DataSource.LoadItemCallback<Movie>() {
             @Override
             public void onSuccess(Movie movie) {
+                mMovie = movie;
                 mView.hideProgressBar();
                 mView.showMovieInfo(movie);
             }
@@ -61,5 +74,32 @@ public class DetailsPresenter implements DetailsContract.Presenter {
             }
         });
 
+    }
+
+    @Override
+    public void toggleFavorite() {
+        if (mIsFavorite) {
+            mRepository.removeFavoriteMovie(mMovieId);
+        } else {
+            mRepository.addFavoriteMovie(mMovie);
+        }
+    }
+
+    @Override
+    public void onGetFavoriteMovie(Cursor data) {
+        if (debug) Log.d(TAG, "onGetFavoriteMovie(data: " + data + ")");
+
+        if (data != null && data.moveToLast()) {
+            mIsFavorite = true;
+        } else {
+            mIsFavorite = false;
+        }
+        mView.checkFavoriteMenu(mIsFavorite);
+
+    }
+
+    @Override
+    public boolean isFavorite() {
+        return mIsFavorite;
     }
 }

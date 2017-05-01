@@ -12,7 +12,6 @@ import com.alekso.udacitypopularmovies.domain.model.MoviesReader;
 import com.alekso.udacitypopularmovies.domain.source.DataSource;
 import com.alekso.udacitypopularmovies.domain.source.Repository;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static com.alekso.udacitypopularmovies.domain.source.DataSource.SORT_FAVORITES;
@@ -24,6 +23,7 @@ import static com.alekso.udacitypopularmovies.domain.source.DataSource.SORT_POPU
 
 public class MainPresenter implements MainContract.Presenter {
 
+    private static final boolean debug = false;
     private static final String TAG = App.fullTag(MainPresenter.class.getSimpleName());
     private final Repository mRepository;
     private final MainContract.View mView;
@@ -34,6 +34,8 @@ public class MainPresenter implements MainContract.Presenter {
      * @param view
      */
     public MainPresenter(Repository repository, MainContract.View view) {
+        if (debug) Log.d(TAG, "constructor(repository: " + repository + "; view: " + view + ")");
+
         mRepository = repository;
         mView = view;
         mView.setPresenter(this);
@@ -42,7 +44,8 @@ public class MainPresenter implements MainContract.Presenter {
 
     @Override
     public void loadMovies() {
-        Log.d(TAG, "loadMovies");
+        if (debug) Log.d(TAG, "loadMovies()");
+
         mView.showProgressBar();
         Context context = ((Fragment) mView).getContext();
         if (!App.isNetworkAvailable(context)) {
@@ -79,6 +82,8 @@ public class MainPresenter implements MainContract.Presenter {
 
     @Override
     public void start() {
+        if (debug) Log.d(TAG, "start()");
+
         loadMovies();
     }
 
@@ -93,7 +98,8 @@ public class MainPresenter implements MainContract.Presenter {
 
     @Override
     public void onGetFavoriteMovies(Cursor data) {
-        Log.d(TAG, "onGetFavoriteMovies(data: " + data + ")");
+        if (debug) Log.d(TAG, "onGetFavoriteMovies(data: " + data + ")");
+
         List<Movie> movies = MoviesReader.fromCursor(data);
         mView.showMovies(movies);
     }

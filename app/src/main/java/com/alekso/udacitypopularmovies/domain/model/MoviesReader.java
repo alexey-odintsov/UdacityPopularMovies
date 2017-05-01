@@ -29,10 +29,20 @@ import static com.alekso.udacitypopularmovies.domain.source.local.MovieContract.
  */
 public class MoviesReader {
 
-    public static final String TAG = App.fullTag(MoviesReader.class.getSimpleName());
     public static final SimpleDateFormat sDateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
 
+    private static final boolean debug = false;
+    private static final String TAG = App.fullTag(MoviesReader.class.getSimpleName());
+
+    /**
+     * Parses movies base info from a Cursor
+     *
+     * @param c Cursor
+     * @return List of movies
+     */
     public static List<Movie> fromCursor(Cursor c) {
+        if (debug) Log.d(TAG, "fromCursor(cursor: " + c + ")");
+
         List<Movie> movies = new ArrayList<>();
 
         while (c.moveToNext()) {
@@ -56,13 +66,13 @@ public class MoviesReader {
      * @return List of movies
      */
     public static List<Movie> parseMoviesList(JSONObject response) {
-        List<Movie> movies = new ArrayList<>();
-        Log.d(TAG, "RESPONSE: " + response);
+        if (debug) Log.d(TAG, "parseMoviesList(response: " + response + ")");
 
+        List<Movie> movies = new ArrayList<>();
         Gson gson = new Gson();
 
         MoviesResponse moviesResponse = gson.fromJson(response.toString(), MoviesResponse.class);
-        Log.d(TAG, "Movies: " + moviesResponse);
+        if (debug) Log.d(TAG, "Movies: " + moviesResponse);
 
         if (moviesResponse != null) {
             for (MoviesResponse.MovieItem m : moviesResponse.results) {
@@ -87,11 +97,11 @@ public class MoviesReader {
      * @return
      */
     public static Movie parseMovieDetails(JSONObject response) {
+        if (debug) Log.d(TAG, "parseMovieDetails(response: " + response + ")");
+
         Gson gson = new Gson();
 
-
         MovieDetailsResponse movieDetailsResponse = gson.fromJson(response.toString(), MovieDetailsResponse.class);
-
 
         Movie.Builder builder = new Movie.Builder()
                 .setId(movieDetailsResponse.id)
@@ -102,7 +112,6 @@ public class MoviesReader {
                 .setDuration(movieDetailsResponse.duration)
                 .setRating(movieDetailsResponse.rating)
                 .setBackdrop(movieDetailsResponse.backdrop);
-
         try {
             Date date = sDateFormat.parse(movieDetailsResponse.releaseDate);
             builder.setReleaseDate(DateFormat.getDateInstance().format(date));

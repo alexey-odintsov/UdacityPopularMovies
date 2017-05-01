@@ -17,10 +17,13 @@ import java.util.List;
  */
 
 public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ReviewsAdapterViewHolder> {
+    private final ReviewsAdapterOnClickHandler mClickHandler;
     List<Review> mReviewsList = new ArrayList<>();
 
-    public ReviewsAdapter() {
+    public ReviewsAdapter(ReviewsAdapterOnClickHandler clickHandler) {
+        mClickHandler = clickHandler;
     }
+
 
     @Override
     public ReviewsAdapter.ReviewsAdapterViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -34,7 +37,12 @@ public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ReviewsA
         Review review = mReviewsList.get(position);
 
         holder.mAuthor.setText(review.getAuthor());
-        holder.mContent.setText(review.getContent());
+        if (review.getContent() != null) {
+            holder.mContent.setText(
+                    review.getContent().length() > 50 ?
+                            review.getContent().substring(0, 50) + ".." :
+                            review.getContent());
+        }
     }
 
     @Override
@@ -46,8 +54,11 @@ public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ReviewsA
         mReviewsList = reviews;
         notifyDataSetChanged();
     }
+    public interface ReviewsAdapterOnClickHandler {
+        void onClick(Review review);
+    }
 
-    public class ReviewsAdapterViewHolder extends RecyclerView.ViewHolder {
+    public class ReviewsAdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView mAuthor;
         TextView mContent;
 
@@ -55,6 +66,14 @@ public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ReviewsA
             super(view);
             mAuthor = (TextView) view.findViewById(R.id.tv_author);
             mContent = (TextView) view.findViewById(R.id.tv_content);
+            view.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            int adapterPosition = getAdapterPosition();
+            Review review = mReviewsList.get(adapterPosition);
+            mClickHandler.onClick(review);
         }
     }
 }

@@ -26,6 +26,7 @@ public final class MovieContract {
         public static final String TABLE = "favorite_movies";
         public static final String C_TITLE = "title";
         public static final String C_MOVIE_ID = "movie_id";
+        public static final String C_POSTER = "poster";
 
         public static Uri buildMovieUri(long movieId) {
             return ContentUris.withAppendedId(CONTENT_URI, movieId);

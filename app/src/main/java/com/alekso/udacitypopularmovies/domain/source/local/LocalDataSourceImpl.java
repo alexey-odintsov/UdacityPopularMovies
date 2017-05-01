@@ -58,6 +58,7 @@ public class LocalDataSourceImpl implements LocalDataSource {
         ContentValues cv = new ContentValues();
         cv.put(MovieContract.FavoriteMovieEntry.C_MOVIE_ID, movie.getId());
         cv.put(MovieContract.FavoriteMovieEntry.C_TITLE, movie.getTitle());
+        cv.put(MovieContract.FavoriteMovieEntry.C_POSTER, movie.getPoster());
         mContentResolver.insert(MovieContract.FavoriteMovieEntry.CONTENT_URI, cv);
     }
 

@@ -1,7 +1,9 @@
 package com.alekso.udacitypopularmovies.domain.model;
 
+import android.database.Cursor;
 import android.util.Log;
 
+import com.alekso.udacitypopularmovies.App;
 import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
 
@@ -15,6 +17,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import static com.alekso.udacitypopularmovies.domain.source.local.MovieContract.FavoriteMovieEntry.C_MOVIE_ID;
+import static com.alekso.udacitypopularmovies.domain.source.local.MovieContract.FavoriteMovieEntry.C_POSTER;
+import static com.alekso.udacitypopularmovies.domain.source.local.MovieContract.FavoriteMovieEntry.C_TITLE;
+
 /**
  * Parses data from JSON response
  * <p>
@@ -23,8 +29,25 @@ import java.util.Locale;
  */
 public class MoviesReader {
 
-    public static final String TAG = MoviesReader.class.getSimpleName();
+    public static final String TAG = App.fullTag(MoviesReader.class.getSimpleName());
     public static final SimpleDateFormat sDateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+
+    public static List<Movie> fromCursor(Cursor c) {
+        List<Movie> movies = new ArrayList<>();
+
+        while (c.moveToNext()) {
+            Movie movie = new Movie.Builder()
+                    .setId(c.getLong(c.getColumnIndex(C_MOVIE_ID)))
+                    .setTitle(c.getString(c.getColumnIndex(C_TITLE)))
+                    .setPoster(c.getString(c.getColumnIndex(C_POSTER)))
+                    .build();
+            movies.add(movie);
+            Log.d(TAG, "movie parsed: " + movie);
+        }
+        c.close();
+
+        return movies;
+    }
 
     /**
      * Parses list of movies from JSON response

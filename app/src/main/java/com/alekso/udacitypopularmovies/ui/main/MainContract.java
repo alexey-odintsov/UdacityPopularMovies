@@ -39,6 +39,8 @@ public interface MainContract {
          * @param sort
          */
         void setSort(int sort);
+
+        void onGetFavoriteMovies(Cursor data);
     }
 
     interface View extends BaseView<Presenter> {
@@ -77,5 +79,7 @@ public interface MainContract {
          * @param movieId
          */
         void showMovieDetailsActivity(long movieId);
+
+        void createFavoriteMoviesLoaders();
     }
 }

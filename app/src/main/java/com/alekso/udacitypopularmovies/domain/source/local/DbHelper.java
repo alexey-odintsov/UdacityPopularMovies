@@ -12,12 +12,13 @@ import static com.alekso.udacitypopularmovies.domain.source.local.MovieContract.
 
 public class DbHelper extends SQLiteOpenHelper {
     public static final String DB_NAME = "popular_movies.db";
-    public static final int DB_VERSION = 4;
+    public static final int DB_VERSION = 5;
 
     public static final String SQL_CREATE_FAVORITES = "CREATE TABLE " + FavoriteMovieEntry.TABLE + " ("
             + FavoriteMovieEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
             + FavoriteMovieEntry.C_MOVIE_ID + " INTEGER NOT NULL,"
-            + FavoriteMovieEntry.C_TITLE + " TEXT NOT NULL"
+            + FavoriteMovieEntry.C_TITLE + " TEXT NOT NULL,"
+            + FavoriteMovieEntry.C_POSTER + " TEXT"
             + ")";
 
     public DbHelper(Context context) {

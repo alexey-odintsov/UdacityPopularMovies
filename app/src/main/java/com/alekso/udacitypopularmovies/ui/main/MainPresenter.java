@@ -2,35 +2,32 @@ package com.alekso.udacitypopularmovies.ui.main;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.Loader;
 import android.util.Log;
 
 import com.alekso.udacitypopularmovies.App;
 import com.alekso.udacitypopularmovies.R;
+import com.alekso.udacitypopularmovies.domain.model.Movie;
+import com.alekso.udacitypopularmovies.domain.model.MoviesReader;
 import com.alekso.udacitypopularmovies.domain.source.DataSource;
 import com.alekso.udacitypopularmovies.domain.source.Repository;
-import com.alekso.udacitypopularmovies.domain.model.Movie;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import static com.alekso.udacitypopularmovies.domain.source.DataSource.SORT_FAVORITES;
 import static com.alekso.udacitypopularmovies.domain.source.DataSource.SORT_POPULARITY;
 
 /**
  * Created by alekso on 26/02/2017.
  */
 
-public class MainPresenter implements MainContract.Presenter,
-        LoaderManager.LoaderCallbacks<Cursor>{
+public class MainPresenter implements MainContract.Presenter {
 
-    private static final String TAG = MainPresenter.class.getSimpleName();
+    private static final String TAG = App.fullTag(MainPresenter.class.getSimpleName());
     private final Repository mRepository;
     private final MainContract.View mView;
     private int mSort = SORT_POPULARITY;
-
-    private LoaderManager mLoaderManager;
 
     /**
      * @param repository
@@ -55,19 +52,24 @@ public class MainPresenter implements MainContract.Presenter,
             mView.hideStatusText();
         }
 
-        mRepository.getMovies(mSort, new DataSource.LoadItemsListCallback<Movie>() {
-            @Override
-            public void onSuccess(List<Movie> movies) {
-                mView.hideProgressBar();
-                mView.showMovies(movies);
-            }
+        if (mSort == SORT_FAVORITES) {
+            mView.createFavoriteMoviesLoaders();
+        } else {
 
-            @Override
-            public void onError(String message) {
-                mView.hideProgressBar();
-                mView.showStatusText(message);
-            }
-        });
+            mRepository.getMovies(mSort, new DataSource.LoadItemsListCallback<Movie>() {
+                @Override
+                public void onSuccess(List<Movie> movies) {
+                    mView.hideProgressBar();
+                    mView.showMovies(movies);
+                }
+
+                @Override
+                public void onError(String message) {
+                    mView.hideProgressBar();
+                    mView.showStatusText(message);
+                }
+            });
+        }
     }
 
     @Override
@@ -90,17 +92,9 @@ public class MainPresenter implements MainContract.Presenter,
     }
 
     @Override
-    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        return null;
-    }
-
-    @Override
-    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-
-    }
-
-    @Override
-    public void onLoaderReset(Loader<Cursor> loader) {
-
+    public void onGetFavoriteMovies(Cursor data) {
+        Log.d(TAG, "onGetFavoriteMovies(data: " + data + ")");
+        List<Movie> movies = MoviesReader.fromCursor(data);
+        mView.showMovies(movies);
     }
 }

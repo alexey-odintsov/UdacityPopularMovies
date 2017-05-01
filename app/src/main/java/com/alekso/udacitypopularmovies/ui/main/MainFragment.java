@@ -3,11 +3,16 @@ package com.alekso.udacitypopularmovies.ui.main;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
 import android.support.v7.widget.GridLayoutManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -19,10 +24,12 @@ import com.alekso.udacitypopularmovies.App;
 import com.alekso.udacitypopularmovies.R;
 import com.alekso.udacitypopularmovies.databinding.FragmentMainBinding;
 import com.alekso.udacitypopularmovies.domain.model.Movie;
+import com.alekso.udacitypopularmovies.domain.source.local.MovieContract;
 import com.alekso.udacitypopularmovies.ui.details.DetailsActivity;
 
 import java.util.List;
 
+import static com.alekso.udacitypopularmovies.domain.source.DataSource.SORT_FAVORITES;
 import static com.alekso.udacitypopularmovies.domain.source.DataSource.SORT_POPULARITY;
 import static com.alekso.udacitypopularmovies.domain.source.DataSource.SORT_TOP_RATED;
 
@@ -30,9 +37,22 @@ import static com.alekso.udacitypopularmovies.domain.source.DataSource.SORT_TOP_
  * Created by alekso on 23/02/2017.
  */
 
-public class MainFragment extends Fragment implements MainContract.View {
+public class MainFragment extends Fragment implements MainContract.View,
+        LoaderManager.LoaderCallbacks<Cursor> {
 
     public static final String STATE_SORT = "sort";
+
+    /**
+     * Debugging flag
+     */
+    private static final boolean debug = true;
+    private static final String TAG = App.fullTag(MainFragment.class.getSimpleName());
+
+    /**
+     * Loader id to load list of favorite movies
+     */
+    private static final int LOADER_GET_FAVORITE_MOVIES = 1;
+
     private FragmentMainBinding mViewBinding;
     private MainContract.Presenter mPresenter;
     private MoviesAdapter mAdapter;
@@ -41,7 +61,7 @@ public class MainFragment extends Fragment implements MainContract.View {
      * Default constructor
      */
     public MainFragment() {
-        //
+        if (debug) Log.d(TAG, "constructor()");
     }
 
     /**
@@ -55,6 +75,8 @@ public class MainFragment extends Fragment implements MainContract.View {
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
+        if (debug) Log.d(TAG, "onCreate(savedInstanceState: " + savedInstanceState + ")");
+
         super.onCreate(savedInstanceState);
         mAdapter = new MoviesAdapter(new MoviesAdapter.MoviesAdapterOnClickHandler() {
             @Override
@@ -69,13 +91,16 @@ public class MainFragment extends Fragment implements MainContract.View {
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
+        if (debug) Log.d(TAG, "onSaveInstanceState(outState: " + outState + ")");
 
+        super.onSaveInstanceState(outState);
         outState.putInt(STATE_SORT, mPresenter.getSort());
     }
 
     @Override
     public void onResume() {
+        if (debug) Log.d(TAG, "onResume()");
+
         super.onResume();
 
         SharedPreferences prefs = getActivity().getSharedPreferences(App.SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
@@ -88,6 +113,8 @@ public class MainFragment extends Fragment implements MainContract.View {
 
     @Override
     public void onPause() {
+        if (debug) Log.d(TAG, "onPause()");
+
         super.onPause();
 
         SharedPreferences preferences = getActivity().getSharedPreferences(App.SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
@@ -99,12 +126,18 @@ public class MainFragment extends Fragment implements MainContract.View {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        if (debug)
+            Log.d(TAG, "onCreateView(inflater: " + inflater + "; container: " + container + "; savedInstanceState: " + savedInstanceState + ")");
+
         mViewBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_main, container, false);
         return mViewBinding.getRoot();
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        if (debug)
+            Log.d(TAG, "onViewCreated(view: " + view + "; savedInstanceState: " + savedInstanceState + ")");
+
         super.onViewCreated(view, savedInstanceState);
 
         mViewBinding.recyclerViewMovies.setLayoutManager(new GridLayoutManager(getContext(), 2));
@@ -165,6 +198,9 @@ public class MainFragment extends Fragment implements MainContract.View {
             case SORT_TOP_RATED:
                 menu.findItem(R.id.action_sort_toprated).setChecked(true);
                 break;
+            case SORT_FAVORITES:
+                menu.findItem(R.id.action_sort_favorite).setChecked(true);
+                break;
         }
     }
 
@@ -181,8 +217,57 @@ public class MainFragment extends Fragment implements MainContract.View {
                 mPresenter.setSort(SORT_TOP_RATED);
                 mPresenter.loadMovies();
                 return true;
+            case R.id.action_sort_favorite:
+                item.setChecked(true);
+                mPresenter.setSort(SORT_FAVORITES);
+                createFavoriteMoviesLoaders();
+                return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void createFavoriteMoviesLoaders() {
+        if (getLoaderManager().getLoader(LOADER_GET_FAVORITE_MOVIES) == null) {
+            getLoaderManager().initLoader(LOADER_GET_FAVORITE_MOVIES, null, this);
+        } else {
+            getLoaderManager().restartLoader(LOADER_GET_FAVORITE_MOVIES, null, this);
+        }
+    }
+
+
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        if (debug) Log.d(TAG, "onCreateLoader(id: " + id + "; args: " + args + ")");
+        switch (id) {
+            case LOADER_GET_FAVORITE_MOVIES:
+                Log.d(TAG, "uri: " + MovieContract.FavoriteMovieEntry.CONTENT_URI);
+                return new CursorLoader(getContext(),
+                        MovieContract.FavoriteMovieEntry.CONTENT_URI,
+                        null,
+                        null,
+                        null,
+                        null);
+            default:
+                return null;
+        }
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        if (debug) Log.d(TAG, "onLoadFinished(loader: " + loader + "; cursor: " + data + ")");
+        switch (loader.getId()) {
+            case LOADER_GET_FAVORITE_MOVIES:
+                mPresenter.onGetFavoriteMovies(data);
+                break;
+
+            default:
+        }
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+        if (debug) Log.d(TAG, "onLoaderReset(loader:" + loader + ")");
     }
 }

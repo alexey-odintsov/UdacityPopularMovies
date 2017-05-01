@@ -56,11 +56,11 @@
                 android:textSize="@dimen/heading_text_size"
                 tools:text="Movie title" />
 
-            <ScrollView
+            <android.support.v4.widget.NestedScrollView
+                android:id="@+id/nsw1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/text_view_title"
-                android:id="@+id/scrollView2">
+                android:layout_below="@id/text_view_title">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -127,8 +127,39 @@
                         android:rating="0.0"
                         android:stepSize="0.1" />
 
+                    <TextView
+                        android:id="@+id/tv_trailers_title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/text_view_description"
+                        android:text="@string/trailers_title"
+
+                        android:textSize="24sp"
+                        android:textStyle="bold" />
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/rv_trailers"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/tv_trailers_title" />
+
+                    <TextView
+                        android:id="@+id/tv_reviews_title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/rv_trailers"
+                        android:text="@string/reviews_title"
+                        android:textSize="24sp"
+                        android:textStyle="bold" />
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/rv_reviews"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/tv_reviews_title"/>
+
                 </RelativeLayout>
-            </ScrollView>
+            </android.support.v4.widget.NestedScrollView>
 
         </RelativeLayout>
     </LinearLayout>

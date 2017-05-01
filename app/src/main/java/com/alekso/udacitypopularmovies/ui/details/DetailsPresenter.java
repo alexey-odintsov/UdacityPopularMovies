@@ -8,8 +8,11 @@ import android.util.Log;
 import com.alekso.udacitypopularmovies.App;
 import com.alekso.udacitypopularmovies.R;
 import com.alekso.udacitypopularmovies.domain.model.Movie;
+import com.alekso.udacitypopularmovies.domain.model.Review;
 import com.alekso.udacitypopularmovies.domain.source.DataSource;
 import com.alekso.udacitypopularmovies.domain.source.Repository;
+
+import java.util.List;
 
 /**
  * Created by alekso on 26/02/2017.
@@ -65,6 +68,17 @@ public class DetailsPresenter implements DetailsContract.Presenter {
                 mMovie = movie;
                 mView.hideProgressBar();
                 mView.showMovieInfo(movie);
+                mRepository.getMovieReviews(mMovieId, new DataSource.LoadItemsListCallback<Review>() {
+                    @Override
+                    public void onSuccess(List<Review> items) {
+                        mView.showReviews(items);
+                    }
+
+                    @Override
+                    public void onError(String message) {
+                        Log.e(TAG, "Error getting reviews: " + message);
+                    }
+                });
             }
 
             @Override

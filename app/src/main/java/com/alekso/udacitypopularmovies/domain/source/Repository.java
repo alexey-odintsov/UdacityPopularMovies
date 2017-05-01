@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.alekso.udacitypopularmovies.App;
 import com.alekso.udacitypopularmovies.domain.model.Movie;
+import com.alekso.udacitypopularmovies.domain.model.Review;
 
 import java.util.HashMap;
 import java.util.List;
@@ -87,6 +88,11 @@ public class Repository implements LocalDataSource, RemoteDataSource {
                 }
             });
         }
+    }
+
+    @Override
+    public void getMovieReviews(long movieId, DataSource.LoadItemsListCallback<Review> callback) {
+        mRemoteDataSource.getMovieReviews(movieId, callback);
     }
 
     @Override

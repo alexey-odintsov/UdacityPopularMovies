@@ -8,6 +8,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -20,7 +22,10 @@ import com.alekso.udacitypopularmovies.App;
 import com.alekso.udacitypopularmovies.R;
 import com.alekso.udacitypopularmovies.databinding.FragmentDetailsBinding;
 import com.alekso.udacitypopularmovies.domain.model.Movie;
+import com.alekso.udacitypopularmovies.domain.model.Review;
 import com.alekso.udacitypopularmovies.domain.source.local.MovieContract;
+
+import java.util.List;
 
 /**
  * Created by alekso on 24/02/2017.
@@ -37,6 +42,9 @@ public class DetailsFragment extends Fragment implements DetailsContract.View,
     private FragmentDetailsBinding mViewBinding;
     private long mMovieId;
     private MenuItem mFavoriteMenu;
+
+    private ReviewsAdapter mReviewsAdapter;
+    private LinearLayoutManager mLayoutManager;
 
     public DetailsFragment() {
 
@@ -55,6 +63,7 @@ public class DetailsFragment extends Fragment implements DetailsContract.View,
         if (debug) Log.d(TAG, "onCreate()");
 
         super.onCreate(savedInstanceState);
+        mReviewsAdapter = new ReviewsAdapter();
         setHasOptionsMenu(true);
     }
 
@@ -65,6 +74,7 @@ public class DetailsFragment extends Fragment implements DetailsContract.View,
             Log.d(TAG, "onCreateView(inflater: " + inflater + "; container: " + container + "; savedInstanceState: " + savedInstanceState + ")");
 
         mViewBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_details, container, false);
+
         return mViewBinding.getRoot();
     }
 
@@ -74,6 +84,11 @@ public class DetailsFragment extends Fragment implements DetailsContract.View,
             Log.d(TAG, "onViewCreated(view: " + view + "; savedInstanceState: " + savedInstanceState + ")");
 
         super.onViewCreated(view, savedInstanceState);
+
+        mLayoutManager = new LinearLayoutManager(getContext());
+        mLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        mViewBinding.rvReviews.setLayoutManager(mLayoutManager);
+        mViewBinding.rvReviews.setAdapter(mReviewsAdapter);
     }
 
     @Override
@@ -165,6 +180,11 @@ public class DetailsFragment extends Fragment implements DetailsContract.View,
                 mFavoriteMenu.setIcon(android.R.drawable.star_big_off);
             }
         }
+    }
+
+    @Override
+    public void showReviews(List<Review> reviews) {
+        mReviewsAdapter.setReviewsData(reviews);
     }
 
     @Override

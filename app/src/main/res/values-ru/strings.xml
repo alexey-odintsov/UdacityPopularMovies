@@ -9,5 +9,7 @@
     <string name="details_original_title">"Оригинальное название: %1$s"</string>
     <string name="no_internet_connection">Нет соединения с Интернет!</string>
     <string name="n_a">N/A</string>
+    <string name="reviews_title">Отзывы:</string>
+    <string name="trailers_title">Трейлеры:</string>
 
 </resources>

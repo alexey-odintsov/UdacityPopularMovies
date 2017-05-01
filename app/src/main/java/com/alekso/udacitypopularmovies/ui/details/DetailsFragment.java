@@ -90,7 +90,7 @@ public class DetailsFragment extends Fragment implements DetailsContract.View,
         super.onViewCreated(view, savedInstanceState);
 
         mLayoutManager = new LinearLayoutManager(getContext());
-        mLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mViewBinding.rvReviews.setLayoutManager(mLayoutManager);
         mViewBinding.rvReviews.setAdapter(mReviewsAdapter);
 

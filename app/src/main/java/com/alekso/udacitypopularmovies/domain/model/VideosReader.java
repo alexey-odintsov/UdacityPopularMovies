@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.alekso.udacitypopularmovies.App;
 import com.google.gson.Gson;
+import com.google.gson.annotations.SerializedName;
 
 import org.json.JSONObject;
 
@@ -44,7 +45,9 @@ public class VideosReader {
         List<VideosReader.Response.VideoItem> results;
 
         class VideoItem {
+            @SerializedName("id")
             String link;
+            @SerializedName("name")
             String title;
         }
     }

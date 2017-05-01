@@ -2,6 +2,7 @@ package com.alekso.udacitypopularmovies.domain.source;
 
 import com.alekso.udacitypopularmovies.domain.model.Movie;
 import com.alekso.udacitypopularmovies.domain.model.Review;
+import com.alekso.udacitypopularmovies.domain.model.Video;
 
 /**
  * Created by alekso on 25/04/2017.
@@ -27,4 +28,12 @@ public interface RemoteDataSource {
      * @param callback
      */
     void getMovieReviews(long movieId, DataSource.LoadItemsListCallback<Review> callback);
+
+    /**
+     * Retrieve list of videos for specified movie
+     *
+     * @param movieId
+     * @param callback
+     */
+    void getMovieVideos(long movieId, DataSource.LoadItemsListCallback<Video> callback);
 }

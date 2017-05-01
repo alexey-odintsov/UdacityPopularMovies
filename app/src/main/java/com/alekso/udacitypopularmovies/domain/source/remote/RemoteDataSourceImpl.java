@@ -8,6 +8,8 @@ import com.alekso.udacitypopularmovies.App;
 import com.alekso.udacitypopularmovies.BuildConfig;
 import com.alekso.udacitypopularmovies.domain.model.Review;
 import com.alekso.udacitypopularmovies.domain.model.ReviewsReader;
+import com.alekso.udacitypopularmovies.domain.model.Video;
+import com.alekso.udacitypopularmovies.domain.model.VideosReader;
 import com.alekso.udacitypopularmovies.domain.source.DataSource;
 import com.alekso.udacitypopularmovies.domain.model.Movie;
 import com.alekso.udacitypopularmovies.domain.model.MoviesReader;
@@ -39,6 +41,7 @@ public class RemoteDataSourceImpl implements RemoteDataSource {
     private static final String TOP_RATED_MOVIES = "top_rated";
     private static final String MOVIE = "movie";
     private static final String REVIEWS = "reviews";
+    private static final String VIDEOS = "videos";
 
     private static RemoteDataSourceImpl sInstance;
     private Context mContext;
@@ -119,6 +122,18 @@ public class RemoteDataSourceImpl implements RemoteDataSource {
         return uri.toString();
     }
 
+    private String getMovieVideosUrl(long movieId) {
+        Uri uri = Uri.parse(PROTOCOL + HOST).buildUpon()
+                .appendPath(API_LEVEL)
+                .appendPath(MOVIE)
+                .appendPath(Long.toString(movieId))
+                .appendPath(VIDEOS)
+                .appendQueryParameter("api_key", BuildConfig.THE_MOVIE_DB_API_TOKEN)
+                //.appendQueryParameter("language", Locale.getDefault().getISO3Language())
+                .build();
+        return uri.toString();
+    }
+
     @Override
     public void getMovies(int sort, final DataSource.LoadItemsListCallback<Movie> listener) {
         String url;
@@ -161,6 +176,28 @@ public class RemoteDataSourceImpl implements RemoteDataSource {
                     public void onResponse(JSONObject response) {
                         List<Review> reviews = ReviewsReader.getListFromJson(response);
                         callback.onSuccess(reviews);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        callback.onError(error.getMessage());
+                    }
+                });
+
+        App.getInstance(mContext).addToRequestQueue(jsonRequest);
+    }
+
+    @Override
+    public void getMovieVideos(long movieId, final LoadItemsListCallback<Video> callback) {
+        String url = getMovieVideosUrl(movieId);
+        JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.GET,
+                url, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        List<Video> videos = VideosReader.getListFromJson(response);
+                        callback.onSuccess(videos);
                     }
                 },
                 new Response.ErrorListener() {

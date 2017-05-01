@@ -9,6 +9,7 @@ import com.alekso.udacitypopularmovies.App;
 import com.alekso.udacitypopularmovies.R;
 import com.alekso.udacitypopularmovies.domain.model.Movie;
 import com.alekso.udacitypopularmovies.domain.model.Review;
+import com.alekso.udacitypopularmovies.domain.model.Video;
 import com.alekso.udacitypopularmovies.domain.source.DataSource;
 import com.alekso.udacitypopularmovies.domain.source.Repository;
 
@@ -77,6 +78,18 @@ public class DetailsPresenter implements DetailsContract.Presenter {
                     @Override
                     public void onError(String message) {
                         Log.e(TAG, "Error getting reviews: " + message);
+                    }
+                });
+
+                mRepository.getMovieVideos(mMovieId, new DataSource.LoadItemsListCallback<Video>() {
+                    @Override
+                    public void onSuccess(List<Video> items) {
+                        mView.showVideos(items);
+                    }
+
+                    @Override
+                    public void onError(String message) {
+                        Log.e(TAG, "Error getting videos: " + message);
                     }
                 });
             }

@@ -4,6 +4,7 @@ import android.database.Cursor;
 
 import com.alekso.udacitypopularmovies.domain.model.Movie;
 import com.alekso.udacitypopularmovies.domain.model.Review;
+import com.alekso.udacitypopularmovies.domain.model.Video;
 import com.alekso.udacitypopularmovies.ui.BasePresenter;
 import com.alekso.udacitypopularmovies.ui.BaseView;
 
@@ -51,5 +52,7 @@ public interface DetailsContract {
         void checkFavoriteMenu(boolean check);
 
         void showReviews(List<Review> reviews);
+
+        void showVideos(List<Video> items);
     }
 }

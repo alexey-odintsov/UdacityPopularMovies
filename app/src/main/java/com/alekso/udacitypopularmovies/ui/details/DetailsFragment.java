@@ -23,6 +23,7 @@ import com.alekso.udacitypopularmovies.R;
 import com.alekso.udacitypopularmovies.databinding.FragmentDetailsBinding;
 import com.alekso.udacitypopularmovies.domain.model.Movie;
 import com.alekso.udacitypopularmovies.domain.model.Review;
+import com.alekso.udacitypopularmovies.domain.model.Video;
 import com.alekso.udacitypopularmovies.domain.source.local.MovieContract;
 
 import java.util.List;
@@ -45,6 +46,8 @@ public class DetailsFragment extends Fragment implements DetailsContract.View,
 
     private ReviewsAdapter mReviewsAdapter;
     private LinearLayoutManager mLayoutManager;
+    private VideosAdapter mVideosAdapter;
+    private LinearLayoutManager mVideosLayoutManager;
 
     public DetailsFragment() {
 
@@ -64,6 +67,7 @@ public class DetailsFragment extends Fragment implements DetailsContract.View,
 
         super.onCreate(savedInstanceState);
         mReviewsAdapter = new ReviewsAdapter();
+        mVideosAdapter = new VideosAdapter();
         setHasOptionsMenu(true);
     }
 
@@ -89,6 +93,11 @@ public class DetailsFragment extends Fragment implements DetailsContract.View,
         mLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         mViewBinding.rvReviews.setLayoutManager(mLayoutManager);
         mViewBinding.rvReviews.setAdapter(mReviewsAdapter);
+
+        mVideosLayoutManager = new LinearLayoutManager(getContext());
+        mVideosLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        mViewBinding.rvTrailers.setLayoutManager(mVideosLayoutManager);
+        mViewBinding.rvTrailers.setAdapter(mVideosAdapter);
     }
 
     @Override
@@ -185,6 +194,11 @@ public class DetailsFragment extends Fragment implements DetailsContract.View,
     @Override
     public void showReviews(List<Review> reviews) {
         mReviewsAdapter.setReviewsData(reviews);
+    }
+
+    @Override
+    public void showVideos(List<Video> items) {
+        mVideosAdapter.setVideosData(items);
     }
 
     @Override

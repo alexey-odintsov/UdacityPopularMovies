@@ -1,13 +1,15 @@
 package com.alekso.udacitypopularmovies.ui.details;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
+import com.alekso.udacitypopularmovies.App;
 import com.alekso.udacitypopularmovies.R;
 import com.alekso.udacitypopularmovies.domain.model.Video;
+import com.android.volley.toolbox.NetworkImageView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,8 +37,12 @@ public class VideosAdapter extends RecyclerView.Adapter<VideosAdapter.VideosAdap
     public void onBindViewHolder(VideosAdapter.VideosAdapterViewHolder holder, int position) {
         Video video = mVideosList.get(position);
 
-        holder.mLink.setText(video.getKey());
-        holder.mTitle.setText(video.getTitle());
+        Context context = holder.mImageViewPoster.getContext();
+
+        holder.mImageViewPoster.setImageUrl("http://img.youtube.com/vi/" + video.getKey() + "/default.jpg",
+                App.getInstance(context).getImageLoader());
+        holder.mImageViewPoster.setContentDescription(video.getTitle());
+
     }
 
     @Override
@@ -55,13 +61,11 @@ public class VideosAdapter extends RecyclerView.Adapter<VideosAdapter.VideosAdap
 
 
     public class VideosAdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        TextView mLink;
-        TextView mTitle;
+        NetworkImageView mImageViewPoster;
 
         public VideosAdapterViewHolder(View view) {
             super(view);
-            mLink = (TextView) view.findViewById(R.id.tv_link);
-            mTitle = (TextView) view.findViewById(R.id.tv_title);
+            mImageViewPoster = (NetworkImageView) view.findViewById(R.id.network_image_view_poster);
             view.setOnClickListener(this);
         }
 

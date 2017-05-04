@@ -12,6 +12,11 @@
         android:textStyle="bold"
         tools:text="Title" />
 
+    <VideoView
+        android:id="@+id/videoView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
     <TextView
         android:id="@+id/tv_link"
         android:layout_width="match_parent"

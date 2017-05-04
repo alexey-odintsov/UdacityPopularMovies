@@ -1,7 +1,9 @@
 package com.alekso.udacitypopularmovies.ui.details;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.databinding.DataBindingUtil;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -10,7 +12,6 @@ import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -77,7 +78,14 @@ public class DetailsFragment extends Fragment implements DetailsContract.View,
                 dialog.show();
             }
         });
-        mVideosAdapter = new VideosAdapter();
+        mVideosAdapter = new VideosAdapter(new VideosAdapter.VideosAdapterOnClickHandler() {
+            @Override
+            public void onClick(Video video) {
+                Uri uri = Uri.parse("http://www.youtube.com/watch?v=" + video.getKey());
+                Intent videoIntent = new Intent(Intent.ACTION_VIEW, uri);
+                startActivity(videoIntent);
+            }
+        });
         setHasOptionsMenu(true);
     }
 

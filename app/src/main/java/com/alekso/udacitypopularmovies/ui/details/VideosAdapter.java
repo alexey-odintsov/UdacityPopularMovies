@@ -17,9 +17,11 @@ import java.util.List;
  */
 
 public class VideosAdapter extends RecyclerView.Adapter<VideosAdapter.VideosAdapterViewHolder> {
+    private final VideosAdapter.VideosAdapterOnClickHandler mClickHandler;
     List<Video> mVideosList = new ArrayList<>();
 
-    public VideosAdapter() {
+    public VideosAdapter(VideosAdapterOnClickHandler clickHandler) {
+        mClickHandler = clickHandler;
     }
 
     @Override
@@ -33,7 +35,7 @@ public class VideosAdapter extends RecyclerView.Adapter<VideosAdapter.VideosAdap
     public void onBindViewHolder(VideosAdapter.VideosAdapterViewHolder holder, int position) {
         Video video = mVideosList.get(position);
 
-        holder.mLink.setText(video.getLink());
+        holder.mLink.setText(video.getKey());
         holder.mTitle.setText(video.getTitle());
     }
 
@@ -47,7 +49,12 @@ public class VideosAdapter extends RecyclerView.Adapter<VideosAdapter.VideosAdap
         notifyDataSetChanged();
     }
 
-    public class VideosAdapterViewHolder extends RecyclerView.ViewHolder {
+    public interface VideosAdapterOnClickHandler {
+        void onClick(Video video);
+    }
+
+
+    public class VideosAdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView mLink;
         TextView mTitle;
 
@@ -55,6 +62,15 @@ public class VideosAdapter extends RecyclerView.Adapter<VideosAdapter.VideosAdap
             super(view);
             mLink = (TextView) view.findViewById(R.id.tv_link);
             mTitle = (TextView) view.findViewById(R.id.tv_title);
+            view.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            int adapterPosition = getAdapterPosition();
+            Video video = mVideosList.get(adapterPosition);
+            mClickHandler.onClick(video);
+
         }
     }
 }

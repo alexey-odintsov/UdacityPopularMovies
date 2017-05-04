@@ -30,7 +30,7 @@ public class VideosReader {
 
         if (itemsResponse != null) {
             for (VideosReader.Response.VideoItem m : itemsResponse.results) {
-                Video video = new Video(m.link, m.title);
+                Video video = new Video(m.id, m.key, m.title);
                 Log.d(TAG, "found item: " + video);
                 videos.add(video);
             }
@@ -46,7 +46,9 @@ public class VideosReader {
 
         class VideoItem {
             @SerializedName("id")
-            String link;
+            String id;
+            @SerializedName("key")
+            String key;
             @SerializedName("name")
             String title;
         }

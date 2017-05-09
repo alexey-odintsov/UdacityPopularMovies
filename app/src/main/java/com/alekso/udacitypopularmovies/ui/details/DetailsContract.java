@@ -54,5 +54,10 @@ public interface DetailsContract {
         void showReviews(List<Review> reviews);
 
         void showVideos(List<Video> items);
+
+        /**
+         * Shows empty movie layout when no movie selected.
+         */
+        void showSelectMovieStub();
     }
 }

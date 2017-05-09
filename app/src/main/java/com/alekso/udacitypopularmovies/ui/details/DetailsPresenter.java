@@ -63,43 +63,48 @@ public class DetailsPresenter implements DetailsContract.Presenter {
             mView.hideStatusText();
         }
 
-        mRepository.getMovieDetails(mMovieId, new DataSource.LoadItemCallback<Movie>() {
-            @Override
-            public void onSuccess(Movie movie) {
-                mMovie = movie;
-                mView.hideProgressBar();
-                mView.showMovieInfo(movie);
-                mRepository.getMovieReviews(mMovieId, new DataSource.LoadItemsListCallback<Review>() {
-                    @Override
-                    public void onSuccess(List<Review> items) {
-                        mView.showReviews(items);
-                    }
+        if (mMovieId == 0) {
+            mView.showSelectMovieStub();
+        } else {
 
-                    @Override
-                    public void onError(String message) {
-                        Log.e(TAG, "Error getting reviews: " + message);
-                    }
-                });
+            mRepository.getMovieDetails(mMovieId, new DataSource.LoadItemCallback<Movie>() {
+                @Override
+                public void onSuccess(Movie movie) {
+                    mMovie = movie;
+                    mView.hideProgressBar();
+                    mView.showMovieInfo(movie);
+                    mRepository.getMovieReviews(mMovieId, new DataSource.LoadItemsListCallback<Review>() {
+                        @Override
+                        public void onSuccess(List<Review> items) {
+                            mView.showReviews(items);
+                        }
 
-                mRepository.getMovieVideos(mMovieId, new DataSource.LoadItemsListCallback<Video>() {
-                    @Override
-                    public void onSuccess(List<Video> items) {
-                        mView.showVideos(items);
-                    }
+                        @Override
+                        public void onError(String message) {
+                            Log.e(TAG, "Error getting reviews: " + message);
+                        }
+                    });
 
-                    @Override
-                    public void onError(String message) {
-                        Log.e(TAG, "Error getting videos: " + message);
-                    }
-                });
-            }
+                    mRepository.getMovieVideos(mMovieId, new DataSource.LoadItemsListCallback<Video>() {
+                        @Override
+                        public void onSuccess(List<Video> items) {
+                            mView.showVideos(items);
+                        }
 
-            @Override
-            public void onError(String message) {
-                mView.hideProgressBar();
-                mView.showStatusText(message);
-            }
-        });
+                        @Override
+                        public void onError(String message) {
+                            Log.e(TAG, "Error getting videos: " + message);
+                        }
+                    });
+                }
+
+                @Override
+                public void onError(String message) {
+                    mView.hideProgressBar();
+                    mView.showStatusText(message);
+                }
+            });
+        }
 
     }
 

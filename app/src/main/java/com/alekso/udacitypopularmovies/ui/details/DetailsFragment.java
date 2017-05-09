@@ -227,6 +227,14 @@ public class DetailsFragment extends Fragment implements DetailsContract.View,
     }
 
     @Override
+    public void showSelectMovieStub() {
+        mViewBinding.layoutDetails.setVisibility(View.GONE);
+        mViewBinding.progressBar.setVisibility(View.GONE);
+        mViewBinding.textViewStatus.setVisibility(View.VISIBLE);
+        mViewBinding.textViewStatus.setText("Select a movie to show detailed info");
+    }
+
+    @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         if (debug) Log.d(TAG, "onCreateLoader(id: " + id + "; args: " + args + ")");
         switch (id) {

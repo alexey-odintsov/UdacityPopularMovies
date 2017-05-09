@@ -39,7 +39,7 @@ public class DetailsFragment extends Fragment implements DetailsContract.View,
         LoaderManager.LoaderCallbacks<Cursor> {
 
     private static final boolean debug = true;
-    private static final String TAG = App.fullTag(DetailsFragment.class.getSimpleName());
+    public static final String TAG = App.fullTag(DetailsFragment.class.getSimpleName());
     private static final int LOADER_GET_FAVORITE_MOVIE = 1;
 
     private DetailsContract.Presenter mPresenter;

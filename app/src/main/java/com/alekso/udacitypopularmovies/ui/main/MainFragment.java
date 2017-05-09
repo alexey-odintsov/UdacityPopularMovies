@@ -24,8 +24,14 @@ import com.alekso.udacitypopularmovies.App;
 import com.alekso.udacitypopularmovies.R;
 import com.alekso.udacitypopularmovies.databinding.FragmentMainBinding;
 import com.alekso.udacitypopularmovies.domain.model.Movie;
+import com.alekso.udacitypopularmovies.domain.source.Repository;
+import com.alekso.udacitypopularmovies.domain.source.local.LocalDataSourceImpl;
 import com.alekso.udacitypopularmovies.domain.source.local.MovieContract;
+import com.alekso.udacitypopularmovies.domain.source.remote.RemoteDataSourceImpl;
 import com.alekso.udacitypopularmovies.ui.details.DetailsActivity;
+import com.alekso.udacitypopularmovies.ui.details.DetailsContract;
+import com.alekso.udacitypopularmovies.ui.details.DetailsFragment;
+import com.alekso.udacitypopularmovies.ui.details.DetailsPresenter;
 
 import java.util.List;
 
@@ -55,6 +61,7 @@ public class MainFragment extends Fragment implements MainContract.View,
 
     private FragmentMainBinding mViewBinding;
     private MainContract.Presenter mPresenter;
+    private DetailsContract.Presenter mDetailsPresenter;
     private MoviesAdapter mAdapter;
 
     /**
@@ -81,6 +88,7 @@ public class MainFragment extends Fragment implements MainContract.View,
         mAdapter = new MoviesAdapter(new MoviesAdapter.MoviesAdapterOnClickHandler() {
             @Override
             public void onClick(long movieId) {
+                ((MainActivity) getActivity()).setLastMovieId(movieId);
                 mPresenter.movieClick(movieId);
             }
         });
@@ -177,9 +185,23 @@ public class MainFragment extends Fragment implements MainContract.View,
 
     @Override
     public void showMovieDetailsActivity(long movieId) {
-        Intent intent = new Intent(getContext(), DetailsActivity.class);
-        intent.putExtra(App.EXTRA_MOVIE_ID, movieId);
-        startActivity(intent);
+        if (getResources().getBoolean(R.bool.is_tablet)) {
+
+            DetailsFragment detailsFragment = DetailsFragment.newInstance(movieId);
+            getFragmentManager().beginTransaction()
+                    .replace(R.id.fragment2_content, detailsFragment, DetailsFragment.TAG)
+                    .commit();
+
+            mDetailsPresenter = new DetailsPresenter(movieId,
+                    Repository.getInstance(
+                            LocalDataSourceImpl.getInstance(getActivity().getContentResolver()),
+                            RemoteDataSourceImpl.getInstance(getActivity().getApplicationContext())
+                    ), detailsFragment);
+        } else {
+            Intent intent = new Intent(getContext(), DetailsActivity.class);
+            intent.putExtra(App.EXTRA_MOVIE_ID, movieId);
+            startActivity(intent);
+        }
     }
 
     @Override

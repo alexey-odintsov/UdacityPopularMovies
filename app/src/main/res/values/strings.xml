@@ -11,4 +11,5 @@
     <string name="reviews_title">Reviews:</string>
     <string name="trailers_title">Trailers:</string>
     <string name="close">Close</string>
+    <string name="select_movie_stub">Select a movie to show detailed info</string>
 </resources>

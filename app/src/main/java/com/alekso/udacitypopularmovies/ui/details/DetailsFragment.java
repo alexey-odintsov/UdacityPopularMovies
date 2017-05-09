@@ -231,7 +231,7 @@ public class DetailsFragment extends Fragment implements DetailsContract.View,
         mViewBinding.layoutDetails.setVisibility(View.GONE);
         mViewBinding.progressBar.setVisibility(View.GONE);
         mViewBinding.textViewStatus.setVisibility(View.VISIBLE);
-        mViewBinding.textViewStatus.setText("Select a movie to show detailed info");
+        mViewBinding.textViewStatus.setText(R.string.select_movie_stub);
     }
 
     @Override

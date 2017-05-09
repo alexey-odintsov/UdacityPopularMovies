@@ -6,6 +6,6 @@
         android:id="@+id/action_add_to_favorites"
         android:checkable="true"
         android:icon="@android:drawable/star_big_off"
-        android:title="Item"
+        android:title="@string/favorite"
         app:showAsAction="always" />
 </menu>

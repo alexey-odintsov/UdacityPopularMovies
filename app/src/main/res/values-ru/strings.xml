@@ -13,5 +13,6 @@
     <string name="trailers_title">Трейлеры:</string>
     <string name="close">Закрыть</string>
     <string name="select_movie_stub">Выберите фильм для отображения дополнительной информации</string>
+    <string name="favorite">Закладки</string>
 
 </resources>

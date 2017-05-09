@@ -11,5 +11,6 @@
     <string name="n_a">N/A</string>
     <string name="reviews_title">Отзывы:</string>
     <string name="trailers_title">Трейлеры:</string>
+    <string name="close">Закрыть</string>
 
 </resources>

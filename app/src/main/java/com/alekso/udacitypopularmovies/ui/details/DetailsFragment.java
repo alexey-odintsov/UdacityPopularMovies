@@ -1,5 +1,6 @@
 package com.alekso.udacitypopularmovies.ui.details;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.databinding.DataBindingUtil;
@@ -68,12 +69,18 @@ public class DetailsFragment extends Fragment implements DetailsContract.View,
         if (debug) Log.d(TAG, "onCreate()");
 
         super.onCreate(savedInstanceState);
-        mReviewsAdapter = new ReviewsAdapter(new ReviewsAdapter.ReviewsAdapterOnClickHandler() {
+        mReviewsAdapter = new ReviewsAdapter(getContext(), new ReviewsAdapter.ReviewsAdapterOnClickHandler() {
             @Override
             public void onClick(Review review) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                 builder.setMessage(review.getContent())
-                        .setTitle(review.getAuthor());
+                        .setTitle(review.getAuthor())
+                        .setNeutralButton(R.string.close, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
                 AlertDialog dialog = builder.create();
                 dialog.show();
             }

@@ -1,5 +1,6 @@
 package com.alekso.udacitypopularmovies.ui.details;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,10 +19,12 @@ import java.util.List;
 
 public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ReviewsAdapterViewHolder> {
     private final ReviewsAdapterOnClickHandler mClickHandler;
-    List<Review> mReviewsList = new ArrayList<>();
+    private final int PREVIEW_TEXT_LIMIT;
+    private List<Review> mReviewsList = new ArrayList<>();
 
-    public ReviewsAdapter(ReviewsAdapterOnClickHandler clickHandler) {
+    public ReviewsAdapter(Context context, ReviewsAdapterOnClickHandler clickHandler) {
         mClickHandler = clickHandler;
+        PREVIEW_TEXT_LIMIT = context.getResources().getBoolean(R.bool.is_tablet) ? 150 : 50;
     }
 
 
@@ -39,8 +42,8 @@ public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ReviewsA
         holder.mAuthor.setText(review.getAuthor());
         if (review.getContent() != null) {
             holder.mContent.setText(
-                    review.getContent().length() > 50 ?
-                            review.getContent().substring(0, 50) + ".." :
+                    review.getContent().length() > PREVIEW_TEXT_LIMIT ?
+                            review.getContent().substring(0, PREVIEW_TEXT_LIMIT) + ".." :
                             review.getContent());
         }
     }
@@ -54,6 +57,7 @@ public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ReviewsA
         mReviewsList = reviews;
         notifyDataSetChanged();
     }
+
     public interface ReviewsAdapterOnClickHandler {
         void onClick(Review review);
     }
